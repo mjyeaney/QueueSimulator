@@ -23,36 +23,17 @@ namespace QueueSimulator
             bool allowArrivals = true;
             Queue<Customer> queue = new Queue<Customer>();
             int durationInSecs = 2 * 60 * 60; // hrs * minutes/hr * seconds/min ....this is a 2 hour simulation
-            int arrivalRate = 4;
+            int arrivalRate = 5;
             int serviceRate = 5;
 
             // main simulation loop
             // runs for duration; OR until queue is empty.
             for (var j = 0; j < durationInSecs; j++)
             {
-                var currentArrivalRate = arrivalRate;
+                var currentArrivalRate = (int)Math.Round(PoissonDistribution.NextPoisson(arrivalRate));
+                //var currentArrivalRate = arrivalRate;
 
-                if (allowArrivals)
-                {
-                    // after 5 minutes, spike 1 mintue
-                    if (j > 900 && j < 960)
-                    {
-                        currentArrivalRate = 7;
-                    }
-
-                    // after 15 minutes, spike another 1 mintue
-                    if (j > 1200 && j < 1260)
-                    {
-                        currentArrivalRate = 7;
-                    }
-
-                    // after 15 minutes, spike another 1 mintue
-                    if (j > 2100 && j < 2160)
-                    {
-                        currentArrivalRate = 7;
-                    }
-                }
-                else
+                if (!allowArrivals)
                 {
                     currentArrivalRate = 0;
                 }
