@@ -8,7 +8,8 @@
         body { font-family: "Segoe UI", Tahoma; font-size: 13px; color: #333; background-color: #eaeaea; }
         h1, h2, h3, h4, h5, h6 { font-family: "Segoe UI Light", Tahoma; font-weight: normal; color: #555; }
         h1, h2, h3, h4, h5, h6, p, ul, ol, table { margin-bottom: 1em; }
-        #content { width: 62em; margin: 0 auto; border-left: 1px solid #888; border-right: 1px solid #888; min-height: 100%; background-color: #fff; padding: 1.5em; }
+        #content { width: 65em; margin: 0 auto; border-left: 1px solid #888; border-right: 1px solid #888; min-height: 100%; background-color: #fff; }
+        .padding { padding: 1.5em; }
         h1 { border-bottom: 1px solid #999; font-size: 2.75em; }
         img.chart { }
         ul li { margin-left: 5em; }
@@ -19,23 +20,25 @@
 </head>
 <body>
     <div id="content">
-        <h1>Queue Simulation</h1>
-        <h3>Description</h3>
-        <p>
-            This report details the result of a discrete event simulation against a single-queue processing system. 
-      The following parameters describe the system:
-        </p>
-        <ul>
-            <li>Simulation time: 2 hours</li>
-            <li>Arrival rate: Poisson, &lambda;=5.0</li>
-            <li>Service rate: &mu;=5.0/sec</li>
-            <li>The simulation stops new arrivals after 2 hours; the system is then given time to drain any residual customers.</li>
-            <li>Note that utilization reports values > 1; this is only for illustrative purposes.</li>
-        </ul>
-        <img class="chart" src="bin/debug/arrivalRate.png" />
-        <img class="chart" src="bin/debug/queueLength.png" />
-        <img class="chart" src="bin/debug/waitTimes.png" />
-        <img class="chart" src="bin/debug/utilization.png" />
+        <div class="padding">
+            <h1>Queue Simulation</h1>
+            <h3>Description</h3>
+            <p>
+                This report details the result of a discrete event simulation against a single-queue processing system. 
+          The following parameters describe the system:
+            </p>
+            <ul>
+                <li>Simulation time: 2 hours</li>
+                <li>Arrival rate: Poisson, &lambda;=5.0</li>
+                <li>Service rate: &mu;=5.0/sec</li>
+                <li>The simulation stops new arrivals after 2 hours; the system is then given time to drain any residual customers.</li>
+                <li>Note that utilization reports values > 1; this is only for illustrative purposes.</li>
+            </ul>
+            <img class="chart" src="bin/debug/arrivalRate.png" />
+            <img class="chart" src="bin/debug/queueLength.png" />
+            <img class="chart" src="bin/debug/waitTimes.png" />
+            <img class="chart" src="bin/debug/utilization.png" />
+        </div>
     </div>
 </body>
 </html>

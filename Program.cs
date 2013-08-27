@@ -30,8 +30,11 @@ namespace QueueSimulator
             // runs for duration; OR until queue is empty.
             for (var j = 0; j < durationInSecs; j++)
             {
-                var currentArrivalRate = (int)Math.Round(PoissonDistribution.NextPoisson(arrivalRate));
                 //var currentArrivalRate = arrivalRate;
+                var currentArrivalRate = (int)Math.Round(PoissonDistribution.Next(arrivalRate));
+                //var currentArrivalRate = (int)Math.Round(UniformDistribution.Next(2, 9));
+                //var currentArrivalRate = (int)Math.Round(NormalDistribution.Next(arrivalRate, 7.5));
+                
 
                 if (!allowArrivals)
                 {

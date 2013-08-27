@@ -9,7 +9,10 @@ namespace QueueSimulator
     {
         private static Random _randObj = new Random();
 
-        public static double NextPoisson(double lambda)
+        /// <summary>
+        /// Gets the next value in the distribution.
+        /// </summary>
+        public static double Next(double lambda)
         {
             // Using algorithm proposed by Knuth
             // see http://en.wikipedia.org/wiki/Poisson_distribution
