@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Queue Simulation</title>
+    <title>Queueing Simulation</title>
     <style type="text/css">
         * { margin: 0px; padding: 0px; }
         html, body { height: 100%; }
@@ -21,23 +21,28 @@
 <body>
     <div id="content">
         <div class="padding">
-            <h1>Queue Simulation</h1>
+            <h1>Queueing Simulation</h1>
             <h3>Description</h3>
-            <p>
-                This report details the result of a discrete event simulation against a single-queue processing system. 
-          The following parameters describe the system:
-            </p>
+            <p>This report details the result of a discrete event simulation against a single-queue processing system. 
+            The following parameters describe the system:</p>
             <ul>
-                <li>Simulation time: 2 hours</li>
-                <li>Arrival rate: Poisson, &lambda;=5.0</li>
-                <li>Service rate: &mu;=5.0/sec</li>
+                <li>Arrival rate: Poisson, &lambda;={{ARRIVAL_RATE}}</li>
+                <li>Service rate: &mu;={{SERVICE_RATE}}</li>
+                <li>Total arrivals (requests): {{TOTAL_CUSTOMERS}}</li>
+                <li>Simulation time: {{SIMULATION_TIME}}</li>
+                <li><strong>Total test duration: {{TOTAL_DURATION}}</strong></li>
+                <li><strong>Recovery duration: {{RECOVERY_DURATION}}</strong></li>
                 <li>The simulation stops new arrivals after 2 hours; the system is then given time to drain any residual customers.</li>
-                <li>Note that utilization reports values > 1; this is only for illustrative purposes.</li>
+                <li>Note that utilization reports values > 100%; this is only for illustrative purposes.</li>
             </ul>
-            <img class="chart" src="bin/debug/arrivalRate.png" />
-            <img class="chart" src="bin/debug/queueLength.png" />
-            <img class="chart" src="bin/debug/waitTimes.png" />
-            <img class="chart" src="bin/debug/utilization.png" />
+            <img class="chart" src="arrivalRate.png" />
+            <img class="chart" src="arrivalRateHist.png" />
+            <img class="chart" src="queueLength.png" />
+            <img class="chart" src="queueLengthHist.png" />
+            <img class="chart" src="waitTimes.png" />
+            <img class="chart" src="waitTimesHist.png" />
+            <img class="chart" src="utilization.png" />
+            <img class="chart" src="utilizationHist.png" />
         </div>
     </div>
 </body>

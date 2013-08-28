@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace QueueSimulator
@@ -15,27 +17,27 @@ namespace QueueSimulator
 
         static void Main(string[] args)
         {
-            List<int> arrivalRates = new List<int>();
+            List<double> arrivalRates = new List<double>();
             List<double> waitTimes = new List<double>();
-            List<int> queueLengths = new List<int>();
+            List<double> queueLengths = new List<double>();
             List<double> utilization = new List<double>();
 
             bool allowArrivals = true;
             Queue<Customer> queue = new Queue<Customer>();
-            int durationInSecs = 2 * 60 * 60; // hrs * minutes/hr * seconds/min ....this is a 2 hour simulation
-            int arrivalRate = 5;
-            int serviceRate = 5;
+            int totalCustomers = 0;
+            int baseDuration = 2 * 60 * 60; // hrs * minutes/hr * seconds/min ....this is a 2 hour simulation
+            int durationInSecs = baseDuration;
+            double arrivalRate = 3.47;
+            int serviceRate = 4;
 
             // main simulation loop
             // runs for duration; OR until queue is empty.
             for (var j = 0; j < durationInSecs; j++)
             {
-                //var currentArrivalRate = arrivalRate;
+                // Sample an arrival rate
                 var currentArrivalRate = (int)Math.Round(PoissonDistribution.Next(arrivalRate));
-                //var currentArrivalRate = (int)Math.Round(UniformDistribution.Next(2, 9));
-                //var currentArrivalRate = (int)Math.Round(NormalDistribution.Next(arrivalRate, 7.5));
-                
 
+                // Obey cool-down periods
                 if (!allowArrivals)
                 {
                     currentArrivalRate = 0;
@@ -48,6 +50,7 @@ namespace QueueSimulator
                     var localTime = j;
                     customer.EntryTime = localTime;
                     queue.Enqueue(customer);
+                    totalCustomers++;
                 }
                 
                 // record metrics
@@ -78,12 +81,56 @@ namespace QueueSimulator
                 }
             }
 
-            #region Chart / Report Generation
+            // generate report
+            var templateText = File.ReadAllText("report.html");
+            templateText = templateText.Replace("{{SIMULATION_TIME}}", baseDuration.ToString());
+            templateText = templateText.Replace("{{TOTAL_DURATION}}", durationInSecs.ToString());
+            templateText = templateText.Replace("{{RECOVERY_DURATION}}", (durationInSecs - baseDuration).ToString());
+            templateText = templateText.Replace("{{ARRIVAL_RATE}}", arrivalRate.ToString());
+            templateText = templateText.Replace("{{SERVICE_RATE}}", serviceRate.ToString());
+            templateText = templateText.Replace("{{TOTAL_CUSTOMERS}}", totalCustomers.ToString());
+            File.WriteAllText("report.html", templateText, Encoding.UTF8);
 
-            /////////////////////////////////////////////////////////////
-            //
-            // Wait time
-            //
+            // generate plots
+            createWaitTimePlot(waitTimes);
+            createArrivalRatePlot(arrivalRates, serviceRate);
+            createQueueLengthPlot(queueLengths);
+            createUtilizationPlot(utilization);
+
+            // generate histograms
+            int bins = 30;
+            createHistogram(arrivalRates, bins, "Arrival Rate - Histogram", "arrivalRateHist.png");
+            createHistogram(queueLengths, bins, "Queue Length - Histogram", "queueLengthHist.png");
+            createHistogram(waitTimes, bins, "Wait Time - Histogram", "waitTimesHist.png");
+            createHistogram(utilization, bins, "Utilization - Histogram", "utilizationHist.png");
+        }
+
+        private static void createHistogram(List<double> data, int binCount, string title, string imageName)
+        {
+            var histData = Histogram.Create(data.ToArray(), binCount);
+
+            Chart c1 = new Chart();
+            var s1 = new Series(title);
+            s1.YValueType = ChartValueType.Double;
+            s1.ChartType = SeriesChartType.Column;
+            s1.Points.DataBindY(histData);
+
+            var chartArea1 = new ChartArea();
+            chartArea1.AxisX.MajorGrid.LineColor = Color.LightGray;
+            chartArea1.AxisY.MajorGrid.LineColor = Color.LightGray;
+            chartArea1.AxisX.LabelStyle.Font = new Font("Consolas", 8);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Consolas", 8);
+
+            c1.Size = new Size(400, 300);
+            c1.Titles.Add(title);
+            c1.ChartAreas.Add(chartArea1);
+            c1.Series.Add(s1);
+            c1.Invalidate();
+            c1.SaveImage(imageName, ChartImageFormat.Png);
+        }
+
+        private static void createWaitTimePlot(List<double> waitTimes)
+        {
             Chart c1 = new Chart();
             var s1 = new Series("Wait Time");
             s1.YValueType = ChartValueType.Double;
@@ -102,11 +149,10 @@ namespace QueueSimulator
             c1.Series.Add(s1);
             c1.Invalidate();
             c1.SaveImage("waitTimes.png", ChartImageFormat.Png);
+        }
 
-            /////////////////////////////////////////////////////////////
-            //
-            // Queue length
-            //
+        private static void createQueueLengthPlot(List<double> queueLengths)
+        {
             Chart c2 = new Chart();
             var s2 = new Series("Queue Length");
             s2.YValueType = ChartValueType.UInt32;
@@ -125,11 +171,10 @@ namespace QueueSimulator
             c2.Series.Add(s2);
             c2.Invalidate();
             c2.SaveImage("queueLength.png", ChartImageFormat.Png);
+        }
 
-            /////////////////////////////////////////////////////////////
-            //
-            // Arrival Rates
-            //
+        private static void createArrivalRatePlot(List<double> arrivalRates, int serviceRate)
+        {
             Chart c3 = new Chart();
             var s3 = new Series("Arrival Rate");
             s3.YValueType = ChartValueType.UInt32;
@@ -140,7 +185,7 @@ namespace QueueSimulator
             s5a.YValueType = ChartValueType.UInt32;
             s5a.ChartType = SeriesChartType.FastLine;
             s5a.Color = Color.Red;
-            s5a.Points.DataBindY(Enumerable.Repeat(serviceRate, utilization.Count).ToList());
+            s5a.Points.DataBindY(Enumerable.Repeat(serviceRate, arrivalRates.Count).ToList());
 
             var chartArea3 = new ChartArea();
             chartArea3.AxisX.MajorGrid.LineColor = Color.LightGray;
@@ -155,11 +200,10 @@ namespace QueueSimulator
             c3.Series.Add(s5a);
             c3.Invalidate();
             c3.SaveImage("arrivalRate.png", ChartImageFormat.Png);
+        }
 
-            /////////////////////////////////////////////////////////////
-            //
-            // Utilization
-            //
+        private static void createUtilizationPlot(List<double> utilization)
+        {
             Chart c4 = new Chart();
             var s4 = new Series("Utilization");
             s4.YValueType = ChartValueType.UInt32;
@@ -185,8 +229,6 @@ namespace QueueSimulator
             c4.Series.Add(s5);
             c4.Invalidate();
             c4.SaveImage("utilization.png", ChartImageFormat.Png);
-
-            #endregion Chart / Report Generation
         }
     }
 }
