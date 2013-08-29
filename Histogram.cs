@@ -1,30 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace QueueSimulator
 {
     public class Histogram
     {
-        public static double[] Create(double[] data, int nBins)
+        public class HistogramData
+        {
+            public HistogramData()
+            {
+                YValues = new List<double>();
+                XValues = new List<string>();
+            }
+            public List<double> YValues { get; set; }
+            public List<string> XValues { get; set; }
+        }
+
+        public static HistogramData Create(double[] data, int nBins)
         {
             double min = data.Min();
             double max = data.Max();
             double width = Math.Ceiling((max - min) / nBins);
-            double[] histogram = new double[nBins];
+            HistogramData histogramData = new HistogramData();
 
             for (var i = 0; i < nBins; i++)
             {
                 var nCounts = 0;
+                var lowerEdge = min + i * width;
+                var upperEdge = min + (i + 1) * width;
+
                 for (var j = 0; j < data.Length; j++)
                 {
-                    if ((data[j] >= min + i * width) && (data[j] < min + (i + 1) * width))
+                    if (data[j] >= lowerEdge && data[j] < upperEdge)
                     {
                         nCounts++;
                     }
                 }
-                histogram[i] = nCounts;
+
+                if (nCounts > 0)
+                {
+                    histogramData.XValues.Add(upperEdge.ToString());
+                    histogramData.YValues.Add(nCounts);
+                }
             }
-            return histogram;
+            
+            return histogramData;
         }
     }
 }

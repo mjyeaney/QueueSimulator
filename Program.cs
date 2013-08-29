@@ -53,10 +53,6 @@ namespace QueueSimulator
                     totalCustomers++;
                 }
                 
-                // record metrics
-                arrivalRates.Add(currentArrivalRate);
-                queueLengths.Add(queue.Count);
-
                 // Service arrivals
                 for (var m = 0; m < serviceRate; m++)
                 {
@@ -67,6 +63,10 @@ namespace QueueSimulator
                     var customer = queue.Dequeue();
                     waitTimes.Add(j - customer.EntryTime);
                 }
+
+                // record metrics
+                arrivalRates.Add(currentArrivalRate);
+                queueLengths.Add(queue.Count);
 
                 // compute utilizaton
                 var u = (double)currentArrivalRate / (double)serviceRate;
@@ -98,35 +98,35 @@ namespace QueueSimulator
             createPlot(utilization, true, 100.0, "Utilization", "utilization.png");
 
             // generate histograms
-            int bins = 30;
-            createHistogram(waitTimes, bins, "Wait Times - Histogram", "waitTimesHist.png");
-            createHistogram(arrivalRates, bins, "Arrival Rate - Histogram", "arrivalRateHist.png");
-            createHistogram(queueLengths, bins, "Queue Length - Histogram", "queueLengthHist.png");
-            createHistogram(utilization, bins, "Utilization - Histogram", "utilizationHist.png");
+            createHistogram(arrivalRates, "Arrival Rate - Histogram", "arrivalRateHist.png");
+            createHistogram(queueLengths, "Queue Length - Histogram", "queueLengthHist.png");
+            createHistogram(waitTimes, "Wait Time - Histogram", "waitTimesHist.png");
+            createHistogram(utilization, "Utilization - Histogram", "utilizationHist.png");
         }
 
-        private static void createHistogram(List<double> data, int binCount, string title, string imageName)
+        private static void createHistogram(List<double> data, string title, string imageName)
         {
+            var binCount = 30;
             var histData = Histogram.Create(data.ToArray(), binCount);
 
-            Chart c = new Chart();
-            var s = new Series(title);
-            s.YValueType = ChartValueType.Double;
-            s.ChartType = SeriesChartType.Column;
-            s.Points.DataBindY(histData);
+            Chart c1 = new Chart();
+            var s1 = new Series(title);
+            s1.YValueType = ChartValueType.Double;
+            s1.ChartType = SeriesChartType.Column;
+            s1.Points.DataBindXY(histData.XValues.ToArray(), histData.YValues.ToArray());
 
-            var a = new ChartArea();
-            a.AxisX.MajorGrid.LineColor = Color.LightGray;
-            a.AxisY.MajorGrid.LineColor = Color.LightGray;
-            a.AxisX.LabelStyle.Font = new Font("Consolas", 8);
-            a.AxisY.LabelStyle.Font = new Font("Consolas", 8);
+            var chartArea1 = new ChartArea();
+            chartArea1.AxisX.MajorGrid.LineColor = Color.LightGray;
+            chartArea1.AxisY.MajorGrid.LineColor = Color.LightGray;
+            chartArea1.AxisX.LabelStyle.Font = new Font("Consolas", 8);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Consolas", 8);
 
-            c.Size = new Size(400, 300);
-            c.Titles.Add(title);
-            c.ChartAreas.Add(a);
-            c.Series.Add(s);
-            c.Invalidate();
-            c.SaveImage(imageName, ChartImageFormat.Png);
+            c1.Size = new Size(400, 300);
+            c1.Titles.Add(title);
+            c1.ChartAreas.Add(chartArea1);
+            c1.Series.Add(s1);
+            c1.Invalidate();
+            c1.SaveImage(imageName, ChartImageFormat.Png);
         }
 
         private static void createPlot(List<double> data, bool hasUpperLimit, double upperLimit, string title, string imageName)
