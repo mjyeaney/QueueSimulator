@@ -17,7 +17,7 @@ namespace QueueSimulator
                 var nCounts = 0;
                 for (var j = 0; j < data.Length; j++)
                 {
-                    if (data[j] >= min + i * width && data[j] < min + (i + 1) * width)
+                    if ((data[j] >= min + i * width) && (data[j] < min + (i + 1) * width))
                     {
                         nCounts++;
                     }

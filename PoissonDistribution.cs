@@ -7,8 +7,8 @@ namespace QueueSimulator
     /// </summary>
     public static class PoissonDistribution
     {
-        private static Random _randObj = new Random();
-
+        private static Random _u = new Random();
+        
         /// <summary>
         /// Gets the next value in the distribution.
         /// </summary>
@@ -22,7 +22,7 @@ namespace QueueSimulator
             do
             {
                 k++;
-                p *= _randObj.NextDouble();
+                p *= _u.NextDouble();
             } while (p >= L);
             return k - 1;
         }

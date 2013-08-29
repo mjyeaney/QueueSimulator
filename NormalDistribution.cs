@@ -7,21 +7,21 @@ namespace QueueSimulator
     /// </summary>
     public static class NormalDistribution
     {
-        private static Random _rng = new Random();
+        private static Random _u = new Random();
 
         /// <summary>
         /// Gets the next value in the distribution.
         /// </summary>
         public static double Next(double mu, double sigma)
         {
-            double x = 2.0 * _rng.NextDouble() - 1.0;
-            double y = 2.0 * _rng.NextDouble() - 1.0;
+            double x = 2.0 * _u.NextDouble() - 1.0;
+            double y = 2.0 * _u.NextDouble() - 1.0;
             double s = x * x + y * y;
 
             while (s > 1.0)
             {
-                x = 2.0 * _rng.NextDouble() - 1.0;
-                y = 2.0 * _rng.NextDouble() - 1.0;
+                x = 2.0 * _u.NextDouble() - 1.0;
+                y = 2.0 * _u.NextDouble() - 1.0;
                 s = x * x + y * y;
             }
 
