@@ -27,8 +27,8 @@ namespace QueueSimulator
             int totalCustomers = 0;
             int baseDuration = 2 * 60 * 60; // hrs * minutes/hr * seconds/min 
             int durationInSecs = baseDuration;
-            double arrivalRate = 3.78;
-            int serviceRate = 4;
+            double arrivalRate = 7.95;
+            double serviceRate = 8.0;
 
             // main simulation loop
             // runs for duration; OR until queue is empty.
@@ -36,6 +36,7 @@ namespace QueueSimulator
             {
                 // Sample an arrival rate
                 var currentArrivalRate = (int)Math.Round(PoissonDistribution.Next(arrivalRate));
+                var currentServiceRate = (int)serviceRate;
 
                 // Obey cool-down periods
                 if (!allowArrivals)
@@ -54,7 +55,7 @@ namespace QueueSimulator
                 }
                 
                 // Service arrivals
-                for (var m = 0; m < serviceRate; m++)
+                for (var m = 0; m < currentServiceRate; m++)
                 {
                     if (queue.Count == 0)
                     {
@@ -69,8 +70,8 @@ namespace QueueSimulator
                 queueLengths.Add(queue.Count);
 
                 // compute utilizaton
-                var u = (double)currentArrivalRate / (double)serviceRate;
-                utilization.Add(u * 100);
+                var u = (double)currentArrivalRate / (double)currentServiceRate;
+                utilization.Add(u * 100.0);
 
                 // if the queue is not empty, and we're done, 
                 // extend the run to allow the system to drain load
@@ -82,6 +83,9 @@ namespace QueueSimulator
             }
 
             // generate report
+            var meanQueueLength = queueLengths.Average();
+            var meanWaitTime = waitTimes.Average();
+            var meanUtilization = utilization.Average();
             var templateText = File.ReadAllText("report.html");
             templateText = templateText.Replace("{{SIMULATION_TIME}}", baseDuration.ToString());
             templateText = templateText.Replace("{{TOTAL_DURATION}}", durationInSecs.ToString());
@@ -89,6 +93,9 @@ namespace QueueSimulator
             templateText = templateText.Replace("{{ARRIVAL_RATE}}", arrivalRate.ToString());
             templateText = templateText.Replace("{{SERVICE_RATE}}", serviceRate.ToString());
             templateText = templateText.Replace("{{TOTAL_CUSTOMERS}}", totalCustomers.ToString());
+            templateText = templateText.Replace("{{MEAN_QUEUE_LENGTH}}", meanQueueLength.ToString());
+            templateText = templateText.Replace("{{MEAN_WAIT_TIME}}", meanWaitTime.ToString());
+            templateText = templateText.Replace("{{MEAN_UTILIZATION}}", meanUtilization.ToString());
             File.WriteAllText("report.html", templateText, Encoding.UTF8);
 
             // generate plots
@@ -98,9 +105,9 @@ namespace QueueSimulator
             createPlot(utilization, true, 100.0, "Utilization", "utilization.png");
 
             // generate histograms
-            createHistogram(arrivalRates, "Arrival Rate - Histogram", "arrivalRateHist.png");
-            createHistogram(queueLengths, "Queue Length - Histogram", "queueLengthHist.png");
             createHistogram(waitTimes, "Wait Time - Histogram", "waitTimesHist.png");
+            createHistogram(arrivalRates, "Arrival Rate - Histogram", "arrivalRateHist.png");
+            createHistogram(queueLengths, "Queue Length - Histogram", "queueLengthHist.png");            
             createHistogram(utilization, "Utilization - Histogram", "utilizationHist.png");
         }
 
