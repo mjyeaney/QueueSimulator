@@ -27,8 +27,8 @@ namespace QueueSimulator
             int totalCustomers = 0;
             int baseDuration = 2 * 60 * 60; // hrs * minutes/hr * seconds/min 
             int durationInSecs = baseDuration;
-            double arrivalRate = 7.95;
-            double serviceRate = 8.0;
+            double arrivalRate = 3.47;
+            double serviceRate = 4.0;
 
             // main simulation loop
             // runs for duration; OR until queue is empty.
