@@ -36,7 +36,7 @@ namespace QueueSimulator
             {
                 // Sample an arrival rate
                 var currentArrivalRate = (int)Math.Round(PoissonDistribution.Next(arrivalRate));
-                var currentServiceRate = (int)serviceRate;
+                var currentServiceRate = (int)Math.Max(serviceRate, (int)Math.Round(PoissonDistribution.Next(serviceRate)));
 
                 // Obey cool-down periods
                 if (!allowArrivals)
@@ -70,8 +70,15 @@ namespace QueueSimulator
                 queueLengths.Add(queue.Count);
 
                 // compute utilizaton
-                var u = (double)currentArrivalRate / (double)currentServiceRate;
-                utilization.Add(u * 100.0);
+                if (currentServiceRate > 0.0)
+                {
+                    var u = (double)currentArrivalRate / (double)currentServiceRate;
+                    utilization.Add(u * 100.0);
+                }
+                else
+                {
+                    utilization.Add(0.0);
+                }
 
                 // if the queue is not empty, and we're done, 
                 // extend the run to allow the system to drain load

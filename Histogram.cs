@@ -38,11 +38,8 @@ namespace QueueSimulator
                     }
                 }
 
-                if (nCounts > 0)
-                {
-                    histogramData.XValues.Add(String.Format("{0}-{1}", lowerEdge, upperEdge));
-                    histogramData.YValues.Add(nCounts);
-                }
+                histogramData.XValues.Add(String.Format("{0}-{1}", lowerEdge, upperEdge));
+                histogramData.YValues.Add(nCounts);
             }
             
             return histogramData;
