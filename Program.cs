@@ -36,7 +36,7 @@ namespace QueueSimulator
             {
                 // Sample an arrival rate
                 var currentArrivalRate = (int)Math.Round(PoissonDistribution.Next(arrivalRate));
-                var currentServiceRate = (int)Math.Max(serviceRate, (int)Math.Round(PoissonDistribution.Next(serviceRate)));
+                var currentServiceRate = (int)Math.Round(arrivalRate);
 
                 // Obey cool-down periods
                 if (!allowArrivals)
