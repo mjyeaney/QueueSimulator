@@ -26,8 +26,6 @@ namespace QueueSimulator
             }
 
             double xGaussian = Math.Sqrt(-2.0 * Math.Log(s) / 2) * x * sigma + mu;
-            //double yGaussian = Math.Sqrt(-2.0 * Math.Log(s) / 2) * y * sigma + mu;
-
             return xGaussian;
         }
     }
