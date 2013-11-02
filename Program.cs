@@ -136,7 +136,7 @@ namespace QueueSimulator
             chartArea1.AxisY.LabelStyle.Font = new Font("Consolas", 8);
 
             c1.Size = new Size(400, 300);
-            c1.Titles.Add(title);
+            c1.Titles.Add(new Title(title));
             c1.ChartAreas.Add(chartArea1);
             c1.Series.Add(s1);
             c1.Invalidate();
@@ -168,7 +168,7 @@ namespace QueueSimulator
             a.AxisY.LabelStyle.Font = new Font("Consolas", 8);
 
             c.Size = new Size(400, 300);
-            c.Titles.Add(title);
+            c.Titles.Add(new Title(title));
             c.ChartAreas.Add(a);
             c.Series.Add(s);
             if (hasUpperLimit) c.Series.Add(s2);
