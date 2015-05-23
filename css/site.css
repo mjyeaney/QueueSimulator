@@ -20,4 +20,5 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #inputPanel div input { width: 16em; }
 #inputPanel div button { margin-right: .5em; }
 
-#results { position: absolute; left: 17em; top: 4.05em; right: 0; bottom: 0; overflow-y: scroll; }
+#results { position: absolute; left: 17em; top: 4.05em; right: 0; bottom: 0; overflow-y: scroll; padding: 1em 0 0 1em; }
+#results .graph { width: 48%; height: 20em; float: left; margin: 0 1em 1em 0; }
