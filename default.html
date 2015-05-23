@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
-    <link type="text/css" href="/site.css" rel="stylesheet" />
+    <title>Qsim - Home</title>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+    <link type="text/css" href="/css/site.css" rel="stylesheet" />
+    <link type="text/css" href="/css/n3.d3.css" rel="stylesheet" />
 </head>
 <body>
     <div id="header">
@@ -10,11 +12,42 @@
     </div>
 
     <div id="inputPanel">
+        <div>
+            <label for="">Input Rate:</label>
+            <input type="text" value="" />
+        </div>
 
+        <div>
+            <label for="">Process Rate:</label>
+            <input type="text" value="" />
+        </div>
+
+        <div>
+            <label for="">Number of Servers:</label>
+            <input type="text" value="" />
+        </div>
+
+        <div>
+            <label for="">Simulation Time:</label>
+            <input type="text" value="" />
+        </div>
+
+        <div>
+            <label for="">Task Time-Out:</label>
+            <input type="text" value="" />
+        </div>
+
+        <div>
+            <button class="green">Run Model</button>
+            <button class="red">Reset</button>
+        </div>
     </div>
 
     <div id="results">
 
     </div>
+
+    <script type="text/javascript" src="d3.min.js" language="javascript"></script>
+    <script type="text/javascript" src="n3.d3.min.js" language="javascript"></script>
 </body>
 </html>

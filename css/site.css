@@ -1,0 +1,23 @@
+* { margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body { background-color: #fff; font-family: "Open Sans", Tahoma, Verdana; font-size: 15px; color: #333; }
+input, select, textarea { font-family: "Open Sans", Tahoma, Verdana; font-size: 13px; color: #111; padding: .5em; border: 1px solid #a0b0d0; border-radius: 5px; }
+select { box-model: content-box; }
+button { font-size: 1em; color: #fff; padding: .5em 1em .5em 1em; border: 1px solid #555; border-radius: 5px; cursor: pointer; }
+button.green { background-color: #696; }
+button.red { background-color: #966; }
+
+h1, h2, h3, h4, h5, h6 { font-weight: 100; }
+a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
+
+#header { height: 4em; background-color: #24548e; border-bottom: 1px solid #000; padding: 0 1em 0 1em; }
+#header h1 { color: #fff; line-height: 2em; }
+
+#inputPanel { position: absolute; left: 0; top: 4.05em; bottom: 0; width: 15em; background-color: #c0c0c0; border-right: 1px solid #000; padding: 1em; }
+#inputPanel div { margin-bottom: 1em; }
+#inputPanel div label, #inputPanel div input { display: block; }
+#inputPanel div input { width: 16em; }
+#inputPanel div button { margin-right: .5em; }
+
+#results { position: absolute; left: 17em; top: 4.05em; right: 0; bottom: 0; overflow-y: scroll; }
