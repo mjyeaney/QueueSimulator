@@ -5,6 +5,7 @@
 $(function(){
     // Initialize queue lib (??)
     var initData = _getRandomData(500);
+    var bins = Distributions.Histogram(20, initData);
     
     // TODO: Setup basic parameter UI and callbacks
 
@@ -13,25 +14,25 @@ $(function(){
     _setupChartDisplay(c1, 'line', 'Arrivals', initData);
     
     var c2 = $('#arrivalsHistogram');
-    _setupChartDisplay(c2, 'column', 'Arrival Histogram', []);
+    _setupChartDisplay(c2, 'column', 'Arrival Histogram', bins);
 
     var c3 = $('#queueLengthGraph');
     _setupChartDisplay(c3, 'line', 'Queue Length', initData);
     
     var c4 = $('#queueLengthHistogram');
-    _setupChartDisplay(c4, 'column', 'Queue Length - Histogram', []);
+    _setupChartDisplay(c4, 'column', 'Queue Length - Histogram', bins);
 
     var c5 = $('#waitTimesGraph');
     _setupChartDisplay(c5, 'line', 'Wait Times', initData);
 
     var c6 = $('#waitTimesHistogram');
-    _setupChartDisplay(c6, 'column', 'Wait Times - Histogram', []);
+    _setupChartDisplay(c6, 'column', 'Wait Times - Histogram', bins);
     
     var c7 = $('#utilizationGraph');
     _setupChartDisplay(c7, 'line', 'Utilization', initData);
 
     var c8 = $('#utilizationHistogram');
-    _setupChartDisplay(c8, 'column', 'Utilization - Histogram', []);
+    _setupChartDisplay(c8, 'column', 'Utilization - Histogram', bins);
 
     // TODO: Setup chart refresh on update callbacks
     

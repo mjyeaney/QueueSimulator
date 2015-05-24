@@ -9,6 +9,10 @@
         scope.Distributions = {};
     }
 
+    var _log10 = function(n){
+        return Math.log(n) / Math.LN10;
+    };
+
     //
     // Creates a uniformly-distributed random variable
     //
@@ -48,13 +52,67 @@
             s = x * x + y * y;
         }
 
-        // TODO: Need to replace the below call to Math.log with a base-10 log
-        var xGaussian = Math.sqrt(-2.0 * Math.log(s) / 2) * x * sigma + mu;
+        var xGaussian = Math.sqrt(-2.0 * _log10(s) / 2) * x * sigma + mu;
         return xGaussian;
+    };
+
+    Array.prototype.Min = function(){
+        var min = Number.MAX_VALUE;
+        for (var j=0; j < this.length; j++){
+            if (this[j] < min) min = this[j];
+        }
+        return min;
+    };
+
+    Array.prototype.Max = function(){
+        var max = Number.MIN_VALUE;
+        for (var j=0; j < this.length; j++){
+            if (this[j] > max) max = this[j];
+        }
+        return max;
+    };
+
+    //
+    // Creates a set of bins representing histrogram profile
+    //
+    var createHistogramBins = function(nBins, data){
+        var min = data.Min();
+        var max = data.Max();
+        var width = Math.ceil((max - min) / nBins);
+        var bins = [];
+
+        console.log('Min: ' + min);
+        console.log('Max: ' + max);
+        console.log('Width: ' + width);
+
+        for (var i = 0; i < nBins; i++)
+        {
+            var nCounts = 0;
+            var lowerEdge = min + i * width;
+            var upperEdge = min + (i + 1) * width;
+
+            console.log('Lower edge: ' + lowerEdge);
+            console.log('Upper edge: ' + upperEdge);
+
+            for (var j = 0; j < data.length; j++)
+            {
+                if (data[j] >= lowerEdge && data[j] < upperEdge)
+                {
+                    nCounts++;
+                }
+            }
+
+            bins.push(nCounts);
+        }
+
+        console.log(bins);
+        
+        return bins;
     };
 
     // Export methods
     scope.Distributions.Uniform = uniform;
     scope.Distributions.Poisson = poisson;
     scope.Distributions.Gaussian = gaussian;
+    scope.Distributions.Histogram = createHistogramBins;
 })(this);
