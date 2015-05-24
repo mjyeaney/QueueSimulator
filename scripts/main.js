@@ -4,7 +4,7 @@
 
 $(function(){
     // Initialize queue lib (??)
-    var initData = _getRandomData();
+    var initData = _getRandomData(500);
     
     // TODO: Setup basic parameter UI and callbacks
 
@@ -36,23 +36,17 @@ $(function(){
     // TODO: Setup chart refresh on update callbacks
     
     // Generate some random sample data
-    function _getRandomData(){
+    function _getRandomData(size){
         var data = [];
-        for (var j = 0; j < 500; j++){
+        for (var j = 0; j < size; j++){
             data.push(Distributions.Poisson(4.5));
         }
         return data;
     };
 
-    function _createHistogramPoints(data){
-        var histBins = [];
-        
-        return histBins;
-    };
-
     // Helper method to setup chart display
     function _setupChartDisplay(elm, type, titleText, initData){
-        elm.highcharts({
+        return elm.highcharts({
             chart: {
                 animation: false
             },
@@ -85,6 +79,6 @@ $(function(){
                 groupPadding: 0,
                 data: initData
             }]
-    });
+        });
     };
 });

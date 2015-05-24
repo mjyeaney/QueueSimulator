@@ -10,7 +10,14 @@
     }
 
     //
-    // Creates a Poisson-distributed randome variable.
+    // Creates a uniformly-distributed random variable
+    //
+    var uniform = function(){
+        return Math.random();
+    };
+
+    //
+    // Creates a Poisson-distributed random variable.
     //
     var poisson = function(lambda){
         // Using algorithm proposed by Knuth
@@ -47,6 +54,7 @@
     };
 
     // Export methods
+    scope.Distributions.Uniform = uniform;
     scope.Distributions.Poisson = poisson;
     scope.Distributions.Gaussian = gaussian;
 })(this);
