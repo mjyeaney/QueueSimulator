@@ -56,56 +56,33 @@
         return xGaussian;
     };
 
-    Array.prototype.Min = function(){
-        var min = Number.MAX_VALUE;
-        for (var j=0; j < this.length; j++){
-            if (this[j] < min) min = this[j];
-        }
-        return min;
-    };
-
-    Array.prototype.Max = function(){
-        var max = Number.MIN_VALUE;
-        for (var j=0; j < this.length; j++){
-            if (this[j] > max) max = this[j];
-        }
-        return max;
-    };
-
     //
     // Creates a set of bins representing histrogram profile
     //
     var createHistogramBins = function(nBins, data){
-        var min = data.Min();
-        var max = data.Max();
+        // Initial sort to order data
+        var localData = data.slice(0);
+        localData.sort();
+        
+        var min = localData[0];
+        var max = localData[localData.length - 1];
         var width = Math.ceil((max - min) / nBins);
         var bins = [];
 
-        console.log('Min: ' + min);
-        console.log('Max: ' + max);
-        console.log('Width: ' + width);
+        for (var j = 0; j < localData.length; j++){
 
-        for (var i = 0; i < nBins; i++)
-        {
-            var nCounts = 0;
-            var lowerEdge = min + i * width;
-            var upperEdge = min + (i + 1) * width;
+            for (var i = 0; i < nBins; i++){
+                var lowerEdge = min + i * width;
+                var upperEdge = min + (i + 1) * width;
 
-            console.log('Lower edge: ' + lowerEdge);
-            console.log('Upper edge: ' + upperEdge);
-
-            for (var j = 0; j < data.length; j++)
-            {
-                if (data[j] >= lowerEdge && data[j] < upperEdge)
-                {
-                    nCounts++;
+                if (localData[j] >= lowerEdge && localData[j] < upperEdge){
+                    if (!bins[i]){
+                        bins[i] = 0;
+                    }
+                    bins[i]++;
                 }
             }
-
-            bins.push(nCounts);
         }
-
-        console.log(bins);
         
         return bins;
     };
