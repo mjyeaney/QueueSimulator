@@ -39,7 +39,7 @@ $(function(){
     function _getRandomData(){
         var data = [];
         for (var j = 0; j < 500; j++){
-            data.push(Math.random() * 100);
+            data.push(Distributions.Poisson(4.5));
         }
         return data;
     };
