@@ -5,7 +5,7 @@
 $(function(){
     // Initialize queue lib (??)
     var initData = _getRandomData(500);
-    var bins = Distributions.Histogram(20, initData);
+    var bins = Distributions.Histogram(initData);
     
     // TODO: Setup basic parameter UI and callbacks
 

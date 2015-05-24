@@ -59,8 +59,9 @@
     //
     // Creates a set of bins representing histrogram profile
     //
-    var createHistogramBins = function(nBins, data){
+    var createHistogramBins = function(data){
         // Initial sort to order data
+        var nBins = Math.ceil(Math.sqrt(data.length));
         var localData = data.slice(0);
         localData.sort();
         
