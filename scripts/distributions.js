@@ -41,19 +41,18 @@
     // Creates a Gaussian-distributed random varialbe
     //
     var gaussian = function(mu, sigma){
-        var x = 2.0 * Math.random() - 1.0;
-        var y = 2.0 * Math.random() - 1.0;
-        var s = x * x + y * y;
+        // Using a rough-implementation of the Box-Muller method
+        // http://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
+        var u = Math.random();
+        var v = Math.random();
 
-        while (s > 1.0)
-        {
-            x = 2.0 * Math.random() - 1.0;
-            y = 2.0 * Math.random() - 1.0;
-            s = x * x + y * y;
-        }
+        z1 = Math.sqrt(-2 * Math.log(u)) * Math.sin(2 * Math.PI * v);
+        z2 = Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
 
-        var xGaussian = Math.sqrt(-2.0 * _log10(s) / 2) * x * sigma + mu;
-        return xGaussian;
+        x1 = (mu + z1) * sigma;
+        x2 = (mu + z2) * sigma;
+
+        return x2;
     };
 
     //
@@ -71,12 +70,13 @@
         var bins = [];
 
         for (var j = 0; j < localData.length; j++){
+            var datum = localData[j];
 
             for (var i = 0; i < nBins; i++){
                 var lowerEdge = min + i * width;
                 var upperEdge = min + (i + 1) * width;
 
-                if (localData[j] >= lowerEdge && localData[j] < upperEdge){
+                if (datum >= lowerEdge && datum < upperEdge){
                     if (!bins[i]){
                         bins[i] = 0;
                     }

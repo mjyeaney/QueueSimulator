@@ -4,7 +4,7 @@
 
 $(function(){
     // Initialize queue lib (??)
-    var initData = _getRandomData(500);
+    var initData = _getRandomData(1000);
     var bins = Distributions.Histogram(initData);
     
     // TODO: Setup basic parameter UI and callbacks
@@ -41,6 +41,7 @@ $(function(){
         var data = [];
         for (var j = 0; j < size; j++){
             data.push(Distributions.Poisson(4.5));
+            //data.push(Distributions.Gaussian(0, 1));
         }
         return data;
     };
@@ -65,9 +66,6 @@ $(function(){
                 title: {
                     text: null
                 }
-            },
-            tooltip: {
-
             },
             legend: {
                 enabled: false
