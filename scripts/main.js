@@ -4,49 +4,62 @@
 
 $(function(){
     // Initialize queue lib (??)
-    var initData = _getRandomData(1000);
-    var bins = Distributions.Histogram(initData);
+    var initData = [];//_getRandomData(300);
+    var bins = [];//Distributions.Histogram(initData);
     
-    // TODO: Setup basic parameter UI and callbacks
-
     // Draw basic charts (initial)
-    var c1 = $('#arrivalsGraph');
-    _setupChartDisplay(c1, 'line', 'Arrivals', initData);
+    var e1 = $('#arrivalsGraph');
+    var c1 = _setupChartDisplay(e1, 'line', 'Arrivals', initData);
     
-    var c2 = $('#arrivalsHistogram');
-    _setupChartDisplay(c2, 'column', 'Arrival Histogram', bins);
+    var e2 = $('#arrivalsHistogram');
+    var c2 = _setupChartDisplay(e2, 'column', 'Arrival Histogram', bins);
 
-    var c3 = $('#queueLengthGraph');
-    _setupChartDisplay(c3, 'line', 'Queue Length', initData);
+    var e3 = $('#queueLengthGraph');
+    var c3 = _setupChartDisplay(e3, 'line', 'Queue Length', initData);
     
-    var c4 = $('#queueLengthHistogram');
-    _setupChartDisplay(c4, 'column', 'Queue Length - Histogram', bins);
+    var e4 = $('#queueLengthHistogram');
+    var c4 = _setupChartDisplay(e4, 'column', 'Queue Length - Histogram', bins);
 
-    var c5 = $('#waitTimesGraph');
-    _setupChartDisplay(c5, 'line', 'Wait Times', initData);
+    var e5 = $('#waitTimesGraph');
+    var c5 = _setupChartDisplay(e5, 'line', 'Wait Times', initData);
 
-    var c6 = $('#waitTimesHistogram');
-    _setupChartDisplay(c6, 'column', 'Wait Times - Histogram', bins);
+    var e6 = $('#waitTimesHistogram');
+    var c6 = _setupChartDisplay(e6, 'column', 'Wait Times - Histogram', bins);
     
-    var c7 = $('#utilizationGraph');
-    _setupChartDisplay(c7, 'line', 'Utilization', initData);
+    var e7 = $('#utilizationGraph');
+    var c7 = _setupChartDisplay(e7, 'line', 'Utilization', initData);
 
-    var c8 = $('#utilizationHistogram');
-    _setupChartDisplay(c8, 'column', 'Utilization - Histogram', bins);
+    var e8 = $('#utilizationHistogram');
+    var c8 = _setupChartDisplay(e8, 'column', 'Utilization - Histogram', bins);
 
-    // TODO: Setup chart refresh on update callbacks
-    
-    // Generate some random sample data
-    function _getRandomData(size){
-        var data = [];
-        for (var j = 0; j < size; j++){
-            //data.push(Distributions.Poisson(2.5));
-            //data.push(Distributions.Gaussian(0, 1));
-            data.push(Distributions.LogNormal(1, .75));
+    // Setup chart refresh on update callbacks
+    var hTimer = window.setInterval(function(){
+        //initData.push(Distributions.Poisson(2.5));
+        //initData.push(Distributions.LogNormal(1, 0.75));
+        initData.push(Distributions.Exponential(2.5));
+        //initData.push(Distributions.Gaussian(0, 1));
+        bins = Distributions.Histogram(initData);
+
+        // update chart data display
+        c1.highcharts().series[0].setData(initData);
+        c2.highcharts().series[0].setData(bins);
+        c2.highcharts().series[1].setData(bins);
+        c3.highcharts().series[0].setData(initData);
+        c4.highcharts().series[0].setData(bins);
+        c4.highcharts().series[1].setData(bins);
+        c5.highcharts().series[0].setData(initData);
+        c6.highcharts().series[0].setData(bins);
+        c6.highcharts().series[1].setData(bins);
+        c7.highcharts().series[0].setData(initData);
+        c8.highcharts().series[0].setData(bins);
+        c8.highcharts().series[1].setData(bins);
+
+        // Stop after 'n' points
+        if (initData.length > 500){
+            window.clearInterval(hTimer);
         }
-        return data;
-    };
-
+    }, 50);
+    
     // Helper method to setup chart display
     function _setupChartDisplay(elm, type, titleText, initData){
         var options = {
@@ -69,13 +82,15 @@ $(function(){
                     marker: {
                         radius: 1
                     }
+                },
+                series: {
+                    enableMouseTracking: false
                 }
             },
             xAxis: {
                 gridLineWidth: 1,
                 type: 'linear',
-                endOnTick: true,
-                tickmarkPlacement: 'on'
+                endOnTick: true
             },
             yAxis: {
                 title: {
@@ -84,7 +99,7 @@ $(function(){
                 endOnTick: true
             },
             legend: {
-                enabled: true
+                enabled: false 
             },
             series: [{
                 type: type,
@@ -102,7 +117,7 @@ $(function(){
                 animation: false,
                 name: 'Curve Fit',
                 data: initData,
-                visible: false,
+                //visible: false,
                 color: 'rgba(128, 32, 32, .85)'
             });
         }

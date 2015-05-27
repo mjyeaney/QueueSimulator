@@ -42,6 +42,13 @@
     };
 
     //
+    // Creates an exponential random variable
+    //
+    var exponential = function(lambda){
+        return jStat.exponential.sample(lambda);
+    };
+
+    //
     // Creates a set of bins representing histrogram profile
     //
     var createHistogramBins = function(data){
@@ -77,7 +84,7 @@
             else return 0;
         });
 
-        // See if we've had a low enough count of discrete values
+        // See if we've had a low enough cardinality
         // to consider this a column-frequency chart.
         if (uniqueValues.length <= 25){
             nBins = uniqueValues.length;
@@ -126,5 +133,6 @@
     scope.Distributions.Poisson = poisson;
     scope.Distributions.Gaussian = gaussian;
     scope.Distributions.LogNormal = logNormal;
+    scope.Distributions.Exponential = exponential;
     scope.Distributions.Histogram = createHistogramBins;
 })(this);
