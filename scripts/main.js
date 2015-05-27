@@ -4,64 +4,74 @@
 
 $(function(){
     // Initialize queue lib (??)
-    var initData = [];//_getRandomData(300);
-    var bins = [];//Distributions.Histogram(initData);
+    var initData = [],
+        binData = [],
+        hTimer = null;
     
     // Draw basic charts (initial)
-    var e1 = $('#arrivalsGraph');
-    var c1 = _setupChartDisplay(e1, 'line', 'Arrivals', initData);
+    var e1 = $('#arrivalsGraph'),
+        c1 = _createGraph(e1, 'line', 'Arrivals', initData);
     
-    var e2 = $('#arrivalsHistogram');
-    var c2 = _setupChartDisplay(e2, 'column', 'Arrival Histogram', bins);
+    var e2 = $('#arrivalsHistogram'),
+        c2 = _createGraph(e2, 'column', 'Arrival Histogram', binData);
 
-    var e3 = $('#queueLengthGraph');
-    var c3 = _setupChartDisplay(e3, 'line', 'Queue Length', initData);
+    var e3 = $('#queueLengthGraph'),
+        c3 = _createGraph(e3, 'line', 'Queue Length', initData);
     
-    var e4 = $('#queueLengthHistogram');
-    var c4 = _setupChartDisplay(e4, 'column', 'Queue Length - Histogram', bins);
+    var e4 = $('#queueLengthHistogram'),
+        c4 = _createGraph(e4, 'column', 'Queue Length - Histogram', binData);
 
-    var e5 = $('#waitTimesGraph');
-    var c5 = _setupChartDisplay(e5, 'line', 'Wait Times', initData);
+    var e5 = $('#waitTimesGraph'),
+        c5 = _createGraph(e5, 'line', 'Wait Times', initData);
 
-    var e6 = $('#waitTimesHistogram');
-    var c6 = _setupChartDisplay(e6, 'column', 'Wait Times - Histogram', bins);
+    var e6 = $('#waitTimesHistogram'),
+        c6 = _createGraph(e6, 'column', 'Wait Times - Histogram', binData);
     
-    var e7 = $('#utilizationGraph');
-    var c7 = _setupChartDisplay(e7, 'line', 'Utilization', initData);
+    var e7 = $('#utilizationGraph'),
+        c7 = _createGraph(e7, 'line', 'Utilization', initData);
 
-    var e8 = $('#utilizationHistogram');
-    var c8 = _setupChartDisplay(e8, 'column', 'Utilization - Histogram', bins);
+    var e8 = $('#utilizationHistogram'),
+        c8 = _createGraph(e8, 'column', 'Utilization - Histogram', binData);
 
-    // Setup chart refresh on update callbacks
-    var hTimer = window.setInterval(function(){
-        //initData.push(Distributions.Poisson(2.5));
-        //initData.push(Distributions.LogNormal(1, 0.75));
-        initData.push(Distributions.Exponential(2.5));
-        //initData.push(Distributions.Gaussian(0, 1));
-        bins = Distributions.Histogram(initData);
+    // Start run when user clicks 'run' button
+    $('#btnRun').click(function(){
+        hTimer = window.setInterval(function(){
+            //initData.push(Distributions.Poisson(2.5));
+            //initData.push(Distributions.LogNormal(1, 0.75));
+            initData.push(Distributions.Exponential(2.5));
+            //initData.push(Distributions.Gaussian(0, 1));
 
-        // update chart data display
-        c1.highcharts().series[0].setData(initData);
-        c2.highcharts().series[0].setData(bins);
-        c2.highcharts().series[1].setData(bins);
-        c3.highcharts().series[0].setData(initData);
-        c4.highcharts().series[0].setData(bins);
-        c4.highcharts().series[1].setData(bins);
-        c5.highcharts().series[0].setData(initData);
-        c6.highcharts().series[0].setData(bins);
-        c6.highcharts().series[1].setData(bins);
-        c7.highcharts().series[0].setData(initData);
-        c8.highcharts().series[0].setData(bins);
-        c8.highcharts().series[1].setData(bins);
+            // Compute new histogram/frequency data
+            binData = Distributions.Histogram(initData);
 
-        // Stop after 'n' points
-        if (initData.length > 500){
-            window.clearInterval(hTimer);
-        }
-    }, 50);
-    
+            // update chart data display
+            c1.highcharts().series[0].setData(initData);
+            c2.highcharts().series[0].setData(binData);
+            c2.highcharts().series[1].setData(binData);
+            c3.highcharts().series[0].setData(initData);
+            c4.highcharts().series[0].setData(binData);
+            c4.highcharts().series[1].setData(binData);
+            c5.highcharts().series[0].setData(initData);
+            c6.highcharts().series[0].setData(binData);
+            c6.highcharts().series[1].setData(binData);
+            c7.highcharts().series[0].setData(initData);
+            c8.highcharts().series[0].setData(binData);
+            c8.highcharts().series[1].setData(binData);
+
+            // Stop after 'n' points
+            if (initData.length > 500){
+                window.clearInterval(hTimer);
+            }
+        }, 50);
+    });
+
+    // Stop run when user clicks 'reset'
+    $('#btnReset').click(function(){
+        window.clearInterval(hTimer);
+    });
+
     // Helper method to setup chart display
-    function _setupChartDisplay(elm, type, titleText, initData){
+    function _createGraph(elm, type, titleText, initData){
         var options = {
             chart: {
                 animation: false
