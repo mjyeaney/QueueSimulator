@@ -40,15 +40,16 @@ $(function(){
     function _getRandomData(size){
         var data = [];
         for (var j = 0; j < size; j++){
-            data.push(Distributions.Poisson(2.5));
+            //data.push(Distributions.Poisson(2.5));
             //data.push(Distributions.Gaussian(0, 1));
+            data.push(Distributions.LogNormal(1, .75));
         }
         return data;
     };
 
     // Helper method to setup chart display
     function _setupChartDisplay(elm, type, titleText, initData){
-        return elm.highcharts({
+        var options = {
             chart: {
                 animation: false
             },
@@ -59,17 +60,31 @@ $(function(){
                 text: titleText,
                 align: 'center'
             },
+            plotOptions: {
+                column: {
+                    shadow: false
+                },
+                spline: {
+                    shadow: false,
+                    marker: {
+                        radius: 1
+                    }
+                }
+            },
             xAxis: {
                 gridLineWidth: 1,
-                type: (type == 'column' ? 'category' : 'linear')
+                type: 'linear',
+                endOnTick: true,
+                tickmarkPlacement: 'on'
             },
             yAxis: {
                 title: {
-                    text: null
-                }
+                    text: '' 
+                },
+                endOnTick: true
             },
             legend: {
-                enabled: false
+                enabled: true
             },
             series: [{
                 type: type,
@@ -79,6 +94,18 @@ $(function(){
                 groupPadding: 0,
                 data: initData
             }]
-        });
+        };
+        if (type === 'column'){
+            options.xAxis.type = 'category';
+            options.series.push({
+                type: 'spline',
+                animation: false,
+                name: 'Curve Fit',
+                data: initData,
+                visible: false,
+                color: 'rgba(128, 32, 32, .85)'
+            });
+        }
+        return elm.highcharts(options);
     };
 });

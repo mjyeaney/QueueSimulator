@@ -35,30 +35,72 @@
     };
 
     //
+    // Creates a log-normal distributed random variable
+    //
+    var logNormal = function(mu, sigma){
+        return jStat.lognormal.sample(mu, sigma);
+    };
+
+    //
     // Creates a set of bins representing histrogram profile
     //
     var createHistogramBins = function(data){
-        // Initial sort to order data
-        var nBins = Math.min(25, Math.ceil(Math.sqrt(data.length)));
-        var localData = data.slice(0);
+        // Note we are using Sturge's method for bins here
+        var nBins = Math.ceil(Math.log(data.length) / Math.LN2 + 1),
+            localData = data.slice(0),
+            min = 0.0,
+            max = 0.0,
+            width = 0.0,
+            bins = [],
+            uniqueValues = {length: 0};
 
-        // Sort the data
+        // Figure out cardinality and sort data
         localData.sort(function(x, y){
+            // 
+            // Here we're checking for values we have not yet 
+            // observed before. This will give is an indication 
+            // of the approximate cardinality of the dataset.
+            //
+            if (!uniqueValues.hasOwnProperty(x)){
+                uniqueValues[x] = x;
+                uniqueValues.length++;
+            }
+
+            if (!uniqueValues.hasOwnProperty(y)){
+                uniqueValues[y] = y;
+                uniqueValues.length++;
+            }
+
+            // Apply sorting rules
             if (x > y) return 1;
             else if (x < y) return -1; 
             else return 0;
         });
 
-        var min = localData[0];
-        var max = localData[localData.length - 1];
-        var width = (max - min) / nBins;
-        var bins = [];
+        // See if we've had a low enough count of discrete values
+        // to consider this a column-frequency chart.
+        if (uniqueValues.length <= 25){
+            nBins = uniqueValues.length;
+        }
 
+        // Extremeties are now min/max
+        min = localData[0];
+        max = localData[localData.length - 1];
+        width = (max - min) / nBins;
+
+        // Some logging for fun!
         console.log('Min: ' + min);
         console.log('Max: ' + max);
         console.log('Bins: ' + nBins);
-        console.log('Bin width: ' + width);
+        console.log('Width: ' + width);
 
+        // Initialize bins
+        for (var i = 0; i < nBins; i++){
+            bins[i] = ['', 0];
+            bins[i][0] = min + (i * width);
+        }
+
+        // Find a slot for each datum
         for (var j = 0; j < localData.length; j++){
             var datum = localData[j];
 
@@ -66,12 +108,8 @@
                 var lowerEdge = min + (i * width);
                 var upperEdge = lowerEdge + width;
 
-                if (!bins[i]){
-                    bins[i] = ['', 0];
-                    //bins[i][0] = (lowerEdge + (width / 2.0)).toFixed(2);
-                    bins[i][0] = lowerEdge;
-                }
-
+                // Once a slot is found, move on to the next datum
+                // (An individual datum cannot exist in more than one slot)
                 if (datum >= lowerEdge && datum < upperEdge){
                     bins[i][1]++;
                     break;
@@ -79,7 +117,7 @@
             }
         }
         
-        console.log(bins);
+        // Done!
         return bins;
     };
 
@@ -87,5 +125,6 @@
     scope.Distributions.Uniform = uniform;
     scope.Distributions.Poisson = poisson;
     scope.Distributions.Gaussian = gaussian;
+    scope.Distributions.LogNormal = logNormal;
     scope.Distributions.Histogram = createHistogramBins;
 })(this);
