@@ -40,7 +40,7 @@ $(function(){
     function _getRandomData(size){
         var data = [];
         for (var j = 0; j < size; j++){
-            data.push(Distributions.Poisson(4.5));
+            data.push(Distributions.Poisson(2.5));
             //data.push(Distributions.Gaussian(0, 1));
         }
         return data;
@@ -60,7 +60,8 @@ $(function(){
                 align: 'center'
             },
             xAxis: {
-                gridLineWidth: 1
+                gridLineWidth: 1,
+                type: (type == 'column' ? 'category' : 'linear')
             },
             yAxis: {
                 title: {
