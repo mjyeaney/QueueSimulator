@@ -37,9 +37,9 @@ $(function(){
     $('#btnRun').click(function(){
         if (hTimer == null){
             hTimer = window.setInterval(function(){
-                initData.push(Distributions.Poisson(2.5));
+                //initData.push(Distributions.Poisson(2.5));
                 //initData.push(Distributions.LogNormal(1, 1.25));
-                //initData.push(Distributions.Exponential(2.5));
+                initData.push(Distributions.Exponential(2.5));
                 //initData.push(Distributions.Gaussian(0, 1));
 
                 // Compute new histogram/frequency data
@@ -104,8 +104,7 @@ $(function(){
             },
             xAxis: {
                 gridLineWidth: 1,
-                type: 'linear',
-                endOnTick: true
+                type: 'linear'
             },
             yAxis: {
                 title: {
