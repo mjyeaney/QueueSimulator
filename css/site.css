@@ -46,6 +46,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     background-color: #c0c0c0; 
     border-right: 1px solid #000; 
     padding: 1em; 
+    overflow-y: scroll;
 }
 #inputPanel div { margin-bottom: 1em; }
 #inputPanel div label, #inputPanel div input { display: block; }

@@ -35,39 +35,44 @@ $(function(){
 
     // Start run when user clicks 'run' button
     $('#btnRun').click(function(){
-        hTimer = window.setInterval(function(){
-            initData.push(Distributions.Poisson(2.5));
-            //initData.push(Distributions.LogNormal(1, 1.25));
-            //initData.push(Distributions.Exponential(2.5));
-            //initData.push(Distributions.Gaussian(0, 1));
+        if (hTimer == null){
+            hTimer = window.setInterval(function(){
+                initData.push(Distributions.Poisson(2.5));
+                //initData.push(Distributions.LogNormal(1, 1.25));
+                //initData.push(Distributions.Exponential(2.5));
+                //initData.push(Distributions.Gaussian(0, 1));
 
-            // Compute new histogram/frequency data
-            binData = Distributions.Histogram(initData);
+                // Compute new histogram/frequency data
+                binData = Distributions.Histogram(initData);
 
-            // update chart data display
-            c1.highcharts().series[0].setData(initData);
-            c2.highcharts().series[0].setData(binData);
-            c2.highcharts().series[1].setData(binData);
-            c3.highcharts().series[0].setData(initData);
-            c4.highcharts().series[0].setData(binData);
-            c4.highcharts().series[1].setData(binData);
-            c5.highcharts().series[0].setData(initData);
-            c6.highcharts().series[0].setData(binData);
-            c6.highcharts().series[1].setData(binData);
-            c7.highcharts().series[0].setData(initData);
-            c8.highcharts().series[0].setData(binData);
-            c8.highcharts().series[1].setData(binData);
+                // update chart data display
+                c1.highcharts().series[0].setData(initData);
+                c2.highcharts().series[0].setData(binData);
+                c2.highcharts().series[1].setData(binData);
+                c3.highcharts().series[0].setData(initData);
+                c4.highcharts().series[0].setData(binData);
+                c4.highcharts().series[1].setData(binData);
+                c5.highcharts().series[0].setData(initData);
+                c6.highcharts().series[0].setData(binData);
+                c6.highcharts().series[1].setData(binData);
+                c7.highcharts().series[0].setData(initData);
+                c8.highcharts().series[0].setData(binData);
+                c8.highcharts().series[1].setData(binData);
 
-            // Stop after 'n' points
-            if (initData.length > 500){
-                window.clearInterval(hTimer);
-            }
-        }, 50);
+                // Stop after 'n' points
+                if (initData.length > 500){
+                    window.clearInterval(hTimer);
+                }
+            }, 50);
+        }
     });
 
     // Stop run when user clicks 'reset'
     $('#btnReset').click(function(){
         window.clearInterval(hTimer);
+        hTimer = null;
+        initData = [];
+        binData = [];
     });
 
     // Helper method to setup chart display
