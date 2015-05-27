@@ -36,9 +36,9 @@ $(function(){
     // Start run when user clicks 'run' button
     $('#btnRun').click(function(){
         hTimer = window.setInterval(function(){
-            //initData.push(Distributions.Poisson(2.5));
-            //initData.push(Distributions.LogNormal(1, 0.75));
-            initData.push(Distributions.Exponential(2.5));
+            initData.push(Distributions.Poisson(2.5));
+            //initData.push(Distributions.LogNormal(1, 1.25));
+            //initData.push(Distributions.Exponential(2.5));
             //initData.push(Distributions.Gaussian(0, 1));
 
             // Compute new histogram/frequency data

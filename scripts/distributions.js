@@ -68,14 +68,16 @@
             // observed before. This will give is an indication 
             // of the approximate cardinality of the dataset.
             //
-            if (!uniqueValues.hasOwnProperty(x)){
-                uniqueValues[x] = x;
-                uniqueValues.length++;
-            }
+            if (uniqueValues.length <= 25){
+                if (!uniqueValues.hasOwnProperty(x)){
+                    uniqueValues[x] = x;
+                    uniqueValues.length++;
+                }
 
-            if (!uniqueValues.hasOwnProperty(y)){
-                uniqueValues[y] = y;
-                uniqueValues.length++;
+                if (!uniqueValues.hasOwnProperty(y)){
+                    uniqueValues[y] = y;
+                    uniqueValues.length++;
+                }
             }
 
             // Apply sorting rules
