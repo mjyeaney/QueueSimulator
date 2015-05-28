@@ -36,35 +36,23 @@ $(function(){
     // Start run when user clicks 'run' button
     $('#btnRun').click(function(){
         if (hTimer == null){
+            $(this).text('Stop');
             hTimer = window.setInterval(function(){
                 // Advance world time/state
                 Queueing.OnTick();
 
-                // update chart data display
-                c1.highcharts().series[0].setData(Queueing.Arrivals);
-                var arrivalHist = Distributions.Histogram(Queueing.Arrivals);
-                c2.highcharts().series[0].setData(arrivalHist);
-                c2.highcharts().series[1].setData(arrivalHist);
+                // update graphs
+                _updateGraphData();
 
-                c3.highcharts().series[0].setData(Queueing.QueueLengths);
-                var queueLengthHist = Distributions.Histogram(Queueing.QueueLengths);
-                c4.highcharts().series[0].setData(queueLengthHist);
-                c4.highcharts().series[1].setData(queueLengthHist);
-
-                c5.highcharts().series[0].setData(Queueing.WaitTimes);
-                var waitTimeHist = Distributions.Histogram(Queueing.WaitTimes);
-                c6.highcharts().series[0].setData(waitTimeHist);
-                c6.highcharts().series[1].setData(waitTimeHist);
-/*
-                c7.highcharts().series[0].setData(initData);
-                c8.highcharts().series[0].setData(binData);
-                c8.highcharts().series[1].setData(binData);
-*/
                 // Stop after 'n' points
                 if (Queueing.GetTicks() > 300){
                     window.clearInterval(hTimer);
                 }
             }, 50);
+        } else {
+            $(this).text('Run Model');
+            window.clearInterval(hTimer);
+            hTimer = null;
         }
     });
 
@@ -73,7 +61,32 @@ $(function(){
         window.clearInterval(hTimer);
         hTimer = null;
         Queueing.Reset();
+        _updateGraphData();
     });
+
+    // Helper to rebind charts to new data sources
+    function _updateGraphData(){
+        // update chart data display
+        c1.highcharts().series[0].setData(Queueing.Arrivals);
+        var arrivalHist = Distributions.Histogram(Queueing.Arrivals);
+        c2.highcharts().series[0].setData(arrivalHist);
+        c2.highcharts().series[1].setData(arrivalHist);
+
+        c3.highcharts().series[0].setData(Queueing.QueueLengths);
+        var queueLengthHist = Distributions.Histogram(Queueing.QueueLengths);
+        c4.highcharts().series[0].setData(queueLengthHist);
+        c4.highcharts().series[1].setData(queueLengthHist);
+
+        c5.highcharts().series[0].setData(Queueing.WaitTimes);
+        var waitTimeHist = Distributions.Histogram(Queueing.WaitTimes);
+        c6.highcharts().series[0].setData(waitTimeHist);
+        c6.highcharts().series[1].setData(waitTimeHist);
+/*
+        c7.highcharts().series[0].setData(initData);
+        c8.highcharts().series[0].setData(binData);
+        c8.highcharts().series[1].setData(binData);
+*/
+    };
 
     // Helper method to setup chart display
     function _createGraph(elm, type, titleText, initData){
