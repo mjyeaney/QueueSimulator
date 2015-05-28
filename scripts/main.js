@@ -39,8 +39,8 @@ $(function(){
             hTimer = window.setInterval(function(){
                 //initData.push(Distributions.Poisson(2.5));
                 //initData.push(Distributions.LogNormal(1, 1.25));
-                initData.push(Distributions.Exponential(2.5));
-                //initData.push(Distributions.Gaussian(0, 1));
+                //initData.push(Distributions.Exponential(2.5));
+                initData.push(Distributions.Gaussian(0, 1));
 
                 // Compute new histogram/frequency data
                 binData = Distributions.Histogram(initData);
@@ -124,6 +124,9 @@ $(function(){
                 data: initData
             }]
         };
+        if (type === 'line'){
+            options.series[0].color = 'rgba(64, 64, 64, .85)';
+        }
         if (type === 'column'){
             options.xAxis.type = 'category';
             options.series.push({
