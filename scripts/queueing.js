@@ -10,5 +10,49 @@
         scope.Queueing = {};
     }
 
+    // Primary system data collections
+    var queue = [],
+        tickCount = 0;
+
+    // Tracking collections
+    var arrivalHistory = [],
+        queueHistory = [],
+        waitTimeHistory = [];
+
+    var getTicks = function(){
+        return tickCount;
+    };
+
+    var onTick = function(){
+        // Advance logical time counter
+        tickCount++;
+
+        // Sample from arrival source
+        var arrivals = Distributions.Poisson(4.0);
+
+        // Add to queue
+        for (var a = 0; a <= arrivals; a++){
+            queue.push({Created: tickCount, Processed: 0});
+        }
+
+        // Sample from processing distribution
+        var processed = Distributions.Poisson(4.1);
+
+        // Remove processed items
+        for (var p = 0; p <= processed; p++){
+            var item = queue.shift();
+            waitTimeHistory.push(tickCount - item.Created);
+        }
+
+        // Record history metrics
+        queueHistory.push(queue.length);
+        arrivalHistory.push(arrivals);
+    };
+
     // Export methods
+    scope.Queueing.GetTicks = getTicks;
+    scope.Queueing.OnTick = onTick;
+    scope.Queueing.Arrivals = arrivalHistory;
+    scope.Queueing.QueueLengths = queueHistory;
+    scope.Queueing.WaitTimes = waitTimeHistory;
 })(this);

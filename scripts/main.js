@@ -37,30 +37,31 @@ $(function(){
     $('#btnRun').click(function(){
         if (hTimer == null){
             hTimer = window.setInterval(function(){
-                //initData.push(Distributions.Poisson(2.5));
-                //initData.push(Distributions.LogNormal(1, 1.25));
-                //initData.push(Distributions.Exponential(2.5));
-                initData.push(Distributions.Gaussian(0, 1));
-
-                // Compute new histogram/frequency data
-                binData = Distributions.Histogram(initData);
+                // Advance world time/state
+                Queueing.OnTick();
 
                 // update chart data display
-                c1.highcharts().series[0].setData(initData);
-                c2.highcharts().series[0].setData(binData);
-                c2.highcharts().series[1].setData(binData);
-                c3.highcharts().series[0].setData(initData);
-                c4.highcharts().series[0].setData(binData);
-                c4.highcharts().series[1].setData(binData);
-                c5.highcharts().series[0].setData(initData);
-                c6.highcharts().series[0].setData(binData);
-                c6.highcharts().series[1].setData(binData);
+                c1.highcharts().series[0].setData(Queueing.Arrivals);
+                var arrivalHist = Distributions.Histogram(Queueing.Arrivals);
+                c2.highcharts().series[0].setData(arrivalHist);
+                c2.highcharts().series[1].setData(arrivalHist);
+
+                c3.highcharts().series[0].setData(Queueing.QueueLengths);
+                var queueLengthHist = Distributions.Histogram(Queueing.QueueLengths);
+                c4.highcharts().series[0].setData(queueLengthHist);
+                c4.highcharts().series[1].setData(queueLengthHist);
+
+                c5.highcharts().series[0].setData(Queueing.WaitTimes);
+                var waitTimeHist = Distributions.Histogram(Queueing.WaitTimes);
+                c6.highcharts().series[0].setData(waitTimeHist);
+                c6.highcharts().series[1].setData(waitTimeHist);
+/*
                 c7.highcharts().series[0].setData(initData);
                 c8.highcharts().series[0].setData(binData);
                 c8.highcharts().series[1].setData(binData);
-
+*/
                 // Stop after 'n' points
-                if (initData.length > 500){
+                if (Queueing.GetTicks() > 300){
                     window.clearInterval(hTimer);
                 }
             }, 50);
@@ -71,8 +72,6 @@ $(function(){
     $('#btnReset').click(function(){
         window.clearInterval(hTimer);
         hTimer = null;
-        initData = [];
-        binData = [];
     });
 
     // Helper method to setup chart display
