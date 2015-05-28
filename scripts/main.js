@@ -58,6 +58,7 @@ $(function(){
 
     // Stop run when user clicks 'reset'
     $('#btnReset').click(function(){
+        $('#btnRun').text('Run Model');
         window.clearInterval(hTimer);
         hTimer = null;
         Queueing.Reset();
