@@ -72,6 +72,7 @@ $(function(){
     $('#btnReset').click(function(){
         window.clearInterval(hTimer);
         hTimer = null;
+        Queueing.Reset();
     });
 
     // Helper method to setup chart display

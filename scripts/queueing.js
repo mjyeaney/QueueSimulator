@@ -49,10 +49,19 @@
         arrivalHistory.push(arrivals);
     };
 
+    var reset = function(){
+        tickCount = 0;
+        queue.length = 0;
+        arrivalHistory.length = 0;
+        queueHistory.length = 0;
+        waitTimeHistory.length = 0;
+    };
+
     // Export methods
     scope.Queueing.GetTicks = getTicks;
     scope.Queueing.OnTick = onTick;
     scope.Queueing.Arrivals = arrivalHistory;
     scope.Queueing.QueueLengths = queueHistory;
     scope.Queueing.WaitTimes = waitTimeHistory;
+    scope.Queueing.Reset = reset;
 })(this);
