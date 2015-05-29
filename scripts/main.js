@@ -143,11 +143,11 @@ $(function(){
             }]
         };
         if (type === 'line'){
-            options.series[0].color = 'rgba(64, 96, 128, .85)';
+            options.series[0].color = 'rgba(96, 128, 164, 1.0)';
         }
         if (type === 'column'){
             options.xAxis.type = 'category';
-            options.series[0].color = 'rgba(64, 96, 128, .85)';
+            options.series[0].color = 'rgba(96, 128, 164, 1.0)';
             /*
             options.series.push({
                 type: 'spline',
