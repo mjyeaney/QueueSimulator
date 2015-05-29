@@ -4,41 +4,40 @@
 
 $(function(){
     // Initialize queue lib (??)
-    var initData = [],
-        binData = [],
-        hTimer = null;
+    var hTimer = null;
     
     // Draw basic charts (initial)
     var e1 = $('#arrivalsGraph'),
-        c1 = _createGraph(e1, 'line', 'Arrivals', initData);
+        c1 = _createGraph(e1, 'line', 'Arrivals', []);
     
     var e2 = $('#arrivalsHistogram'),
-        c2 = _createGraph(e2, 'column', 'Arrival Histogram', binData);
+        c2 = _createGraph(e2, 'column', 'Arrival Histogram', []);
 
     var e3 = $('#queueLengthGraph'),
-        c3 = _createGraph(e3, 'line', 'Queue Length', initData);
+        c3 = _createGraph(e3, 'line', 'Queue Length', []);
     
     var e4 = $('#queueLengthHistogram'),
-        c4 = _createGraph(e4, 'column', 'Queue Length - Histogram', binData);
+        c4 = _createGraph(e4, 'column', 'Queue Length - Histogram', []);
 
     var e5 = $('#waitTimesGraph'),
-        c5 = _createGraph(e5, 'line', 'Wait Times', initData);
+        c5 = _createGraph(e5, 'line', 'Wait Times', []);
 
     var e6 = $('#waitTimesHistogram'),
-        c6 = _createGraph(e6, 'column', 'Wait Times - Histogram', binData);
+        c6 = _createGraph(e6, 'column', 'Wait Times - Histogram', []);
     
     var e7 = $('#utilizationGraph'),
-        c7 = _createGraph(e7, 'line', 'Utilization', initData);
+        c7 = _createGraph(e7, 'line', 'Utilization', []);
 
     var e8 = $('#utilizationHistogram'),
-        c8 = _createGraph(e8, 'column', 'Utilization - Histogram', binData);
+        c8 = _createGraph(e8, 'column', 'Utilization - Histogram', []);
 
     // Start run when user clicks 'run' button
     $('#btnRun').click(function(){
         if (hTimer == null){
+            _bindFormToModel();
             $(this).text('Stop');
             hTimer = window.setInterval(function(){
-                if (Queueing.GetTicks() <= 300){
+                if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
                     // Advance world time/state
                     Queueing.OnTick();
 
@@ -68,6 +67,17 @@ $(function(){
         Queueing.Reset();
         _updateGraphData();
     });
+
+    // Binds parameter input form to model
+    function _bindFormToModel(){
+        var params = {};
+        params.simulationTime = parseInt($('#txtSimulationTime').val());
+        params.arrivalRate = parseFloat($('#txtArrivalRate').val());
+        params.serverCount = parseInt($('#txtServerCount').val());
+        params.processingRate = parseFloat($('#txtProcessingRate').val());
+        params.enableDrainOff = true;
+        Queueing.Initialize(params);
+    };
 
     // Helper to rebind charts to new data sources
     function _updateGraphData(){

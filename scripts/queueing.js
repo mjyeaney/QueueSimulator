@@ -20,6 +20,9 @@
         waitTimeHistory = [],
         utilizationHistory = [];
 
+    // System behavior params
+    var options = {};
+
     // 
     // Returns the internal world-event tick counter.
     //
@@ -39,7 +42,22 @@
     // parameters.
     //
     var initialize = function(params){
+        // arrival rate
+        options.arrivalRate = params.arrivalRate;
+        options.simulationTime = params.simulationTime;
 
+        // processing rate
+        options.processingRate = params.processingRate;
+        options.serverCount = params.serverCount;
+
+        // enable drain off
+        options.enableDrainOff = params.enableDrainOff;
+        
+        // timeout?
+        // number of servers?
+        
+        // Expose these options externally
+        scope.Queueing.Options = options;
     };
 
     //
@@ -51,7 +69,7 @@
         tickCount++;
 
         // Sample from arrival source
-        var arrivals = Distributions.Poisson(6.4);
+        var arrivals = Distributions.Poisson(options.arrivalRate);
 
         // Add to queue
         for (var a = 0; a <= arrivals; a++){
@@ -59,7 +77,8 @@
         }
 
         // Sample from processing distribution
-        var processed = Distributions.Poisson(6.5);
+        var finalRate = options.processingRate * options.serverCount;
+        var processed = Distributions.Poisson(finalRate);
 
         // Remove processed items
         for (var p = 0; p <= processed; p++){
@@ -117,6 +136,8 @@
     };
 
     // Export methods
+    scope.Queueing.Options = {};
+    scope.Queueing.Initialize = initialize;
     scope.Queueing.GetTicks = getTicks;
     scope.Queueing.OnTick = onTick;
     scope.Queueing.Drain = drain;

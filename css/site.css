@@ -67,5 +67,6 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #results .graph { width: 48%; height: 20em; float: left; margin: 0 1em 1em 0; }
 
 @media (max-width: 1024px){
+    #results { padding: 1em; }
     #results .graph { width: 100%; }
 }
