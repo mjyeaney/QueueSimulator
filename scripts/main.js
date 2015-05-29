@@ -38,15 +38,19 @@ $(function(){
         if (hTimer == null){
             $(this).text('Stop');
             hTimer = window.setInterval(function(){
-                // Advance world time/state
-                Queueing.OnTick();
+                if (Queueing.GetTicks() <= 300){
+                    // Advance world time/state
+                    Queueing.OnTick();
 
-                // update graphs
-                _updateGraphData();
-
-                // Stop after 'n' points
-                if (Queueing.GetTicks() > 300){
-                    window.clearInterval(hTimer);
+                    // update graphs
+                    _updateGraphData();
+                } else {
+                    Queueing.Drain();
+                    _updateGraphData();
+                    if (Queueing.GetWorkItemCount() === 0){
+                        $('#btnRun').text('Run Model');
+                        window.clearInterval(hTimer);
+                    }
                 }
             }, 50);
         } else {
@@ -82,11 +86,11 @@ $(function(){
         var waitTimeHist = Distributions.Histogram(Queueing.WaitTimes);
         c6.highcharts().series[0].setData(waitTimeHist);
         c6.highcharts().series[1].setData(waitTimeHist);
-/*
-        c7.highcharts().series[0].setData(initData);
-        c8.highcharts().series[0].setData(binData);
-        c8.highcharts().series[1].setData(binData);
-*/
+
+        c7.highcharts().series[0].setData(Queueing.Utilization);
+        var utilizationHist = Distributions.Histrogram(Queueing.Utilization);
+        c8.highcharts().series[0].setData(utilizationHist);
+        c8.highcharts().series[1].setData(utilizationHist);
     };
 
     // Helper method to setup chart display

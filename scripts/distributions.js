@@ -97,12 +97,6 @@
         max = localData[localData.length - 1];
         width = (max - min) / nBins;
 
-        // Some logging for fun!
-        console.log('Min: ' + min);
-        console.log('Max: ' + max);
-        console.log('Bins: ' + nBins);
-        console.log('Width: ' + width);
-
         // Initialize bins
         for (var i = 0; i < nBins; i++){
             bins[i] = ['', 0];

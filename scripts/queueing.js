@@ -17,10 +17,15 @@
     // Tracking collections
     var arrivalHistory = [],
         queueHistory = [],
-        waitTimeHistory = [];
+        waitTimeHistory = [],
+        utilizationHistory = [];
 
     var getTicks = function(){
         return tickCount;
+    };
+
+    var getWorkItemCount = function(){
+        return queue.length;
     };
 
     var onTick = function(){
@@ -36,17 +41,38 @@
         }
 
         // Sample from processing distribution
+        var processed = Distributions.Poisson(4.0);
+
+        // Remove processed items
+        for (var p = 0; p <= processed; p++){
+            var item = queue.shift();
+            if (item){
+                waitTimeHistory.push(tickCount - item.Created);
+            }
+        }
+
+        // Record history metrics
+        utilizationHistory.push(100.0 * (arrivals / processed));
+        queueHistory.push(queue.length);
+        arrivalHistory.push(arrivals);
+    };
+
+    var drain = function(){
+        // Sample from processing distribution
         var processed = Distributions.Poisson(4.1);
 
         // Remove processed items
         for (var p = 0; p <= processed; p++){
             var item = queue.shift();
-            waitTimeHistory.push(tickCount - item.Created);
+            if (item){
+                waitTimeHistory.push(tickCount - item.Created);
+            }
         }
 
         // Record history metrics
         queueHistory.push(queue.length);
-        arrivalHistory.push(arrivals);
+        arrivalHistory.push(0);
+        utilizationHistory.push(0);
     };
 
     var reset = function(){
@@ -60,8 +86,11 @@
     // Export methods
     scope.Queueing.GetTicks = getTicks;
     scope.Queueing.OnTick = onTick;
+    scope.Queueing.Drain = drain;
+    scope.Queueing.GetWorkItemCount = getWorkItemCount;
     scope.Queueing.Arrivals = arrivalHistory;
     scope.Queueing.QueueLengths = queueHistory;
     scope.Queueing.WaitTimes = waitTimeHistory;
+    scope.Queueing.Utilization = utilizationHistory;
     scope.Queueing.Reset = reset;
 })(this);
