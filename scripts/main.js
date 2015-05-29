@@ -62,6 +62,7 @@ $(function(){
 
     // Stop run when user clicks 'reset'
     $('#btnReset').click(function(){
+        $('#results').removeClass('active');
         $('#btnRun').text('Run Model');
         window.clearInterval(hTimer);
         hTimer = null;

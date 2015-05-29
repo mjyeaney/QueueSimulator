@@ -89,6 +89,9 @@
         }
 
         // Compute system utilization
+        // (While utilization can never be > 100%,
+        // it can be useful to see exactly *how* overscheduled a specific 
+        // server(s) is/are.
         var utilization = 0.0; 
         utilization = 100.0 * (arrivals / processed);
 
