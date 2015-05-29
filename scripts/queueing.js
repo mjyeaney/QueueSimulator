@@ -20,14 +20,32 @@
         waitTimeHistory = [],
         utilizationHistory = [];
 
+    // 
+    // Returns the internal world-event tick counter.
+    //
     var getTicks = function(){
         return tickCount;
     };
 
+    //
+    // Returns the current work items currently enqueued.
+    //
     var getWorkItemCount = function(){
         return queue.length;
     };
 
+    //
+    // Initializes the queueing model using the specified 
+    // parameters.
+    //
+    var initialize = function(params){
+
+    };
+
+    //
+    // Advances the system logical clock by one event-tick, updating
+    // all internal state to reflect this new tick.
+    //
     var onTick = function(){
         // Advance logical time counter
         tickCount++;
@@ -61,6 +79,10 @@
         arrivalHistory.push(arrivals);
     };
 
+    //
+    // Drains off any remaining work; that is, continues processing 
+    // without any new arrivals into the system.
+    //
     var drain = function(){
         // Advance logical time counter
         tickCount++;
@@ -82,6 +104,9 @@
         utilizationHistory.push(0);
     };
 
+    //
+    // Resets and clears all internal system state.
+    //
     var reset = function(){
         tickCount = 0;
         queue.length = 0;
