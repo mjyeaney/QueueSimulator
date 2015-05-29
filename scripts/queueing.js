@@ -90,7 +90,11 @@
 
         // Compute system utilization
         var utilization = 0.0; 
-        utilization = Math.min(100.0, 100.0 * (arrivals / processed)); 
+        utilization = 100.0 * (arrivals / processed);
+
+        // Special cases for utilization
+        if ((processed === 0) && (arrivals === 0)) utilization = 0.0;
+        else if (processed === 0) utilization = 100.0;
 
         // Record history metrics
         utilizationHistory.push(utilization);

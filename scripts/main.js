@@ -35,6 +35,7 @@ $(function(){
     $('#btnRun').click(function(){
         if (hTimer == null){
             _bindFormToModel();
+            $('#results').addClass('active');
             $(this).text('Stop');
             hTimer = window.setInterval(function(){
                 if (Queueing.GetTicks() <= Queueing.Options.simulationTime){

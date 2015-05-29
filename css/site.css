@@ -64,7 +64,21 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     overflow-y: scroll; 
     padding: 1em 0 0 1em; 
 }
-#results .graph { width: 48%; height: 20em; float: left; margin: 0 1em 1em 0; }
+#results .noModel {
+    margin-top: 30%;
+    text-align: center;
+    font-weight: 100;
+    text-transform: uppercase;
+}
+#results .graph { 
+    display: none; 
+    width: 48%; 
+    height: 20em; 
+    float: left; 
+    margin: 0 1em 1em 0; 
+}
+#results.active .graph { display: block; }
+#results.active .noModel { display: none; }
 
 @media (max-width: 1024px){
     #results { padding: 1em; }
