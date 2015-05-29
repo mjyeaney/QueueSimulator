@@ -33,7 +33,7 @@
         tickCount++;
 
         // Sample from arrival source
-        var arrivals = Distributions.Poisson(4.0);
+        var arrivals = Distributions.Poisson(6.4);
 
         // Add to queue
         for (var a = 0; a <= arrivals; a++){
@@ -41,7 +41,7 @@
         }
 
         // Sample from processing distribution
-        var processed = Distributions.Poisson(4.0);
+        var processed = Distributions.Poisson(6.5);
 
         // Remove processed items
         for (var p = 0; p <= processed; p++){
@@ -51,13 +51,20 @@
             }
         }
 
+        // Compute system utilization
+        var utilization = 0.0; 
+        utilization = Math.min(100.0, 100.0 * (arrivals / processed)); 
+
         // Record history metrics
-        utilizationHistory.push(100.0 * (arrivals / processed));
+        utilizationHistory.push(utilization);
         queueHistory.push(queue.length);
         arrivalHistory.push(arrivals);
     };
 
     var drain = function(){
+        // Advance logical time counter
+        tickCount++;
+
         // Sample from processing distribution
         var processed = Distributions.Poisson(4.1);
 
@@ -81,6 +88,7 @@
         arrivalHistory.length = 0;
         queueHistory.length = 0;
         waitTimeHistory.length = 0;
+        utilizationHistory.length = 0;
     };
 
     // Export methods

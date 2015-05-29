@@ -32,6 +32,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #header { 
     height: 4em; 
     background-color: #24548e; 
+    background: linear-gradient(#24548e, #04347e);
     border-bottom: 1px solid #000; 
     padding: 0 1em 0 1em; 
 }

@@ -75,22 +75,22 @@ $(function(){
         c1.highcharts().series[0].setData(Queueing.Arrivals);
         var arrivalHist = Distributions.Histogram(Queueing.Arrivals);
         c2.highcharts().series[0].setData(arrivalHist);
-        c2.highcharts().series[1].setData(arrivalHist);
+        //c2.highcharts().series[1].setData(arrivalHist);
 
         c3.highcharts().series[0].setData(Queueing.QueueLengths);
         var queueLengthHist = Distributions.Histogram(Queueing.QueueLengths);
         c4.highcharts().series[0].setData(queueLengthHist);
-        c4.highcharts().series[1].setData(queueLengthHist);
+        //c4.highcharts().series[1].setData(queueLengthHist);
 
         c5.highcharts().series[0].setData(Queueing.WaitTimes);
         var waitTimeHist = Distributions.Histogram(Queueing.WaitTimes);
         c6.highcharts().series[0].setData(waitTimeHist);
-        c6.highcharts().series[1].setData(waitTimeHist);
+        //c6.highcharts().series[1].setData(waitTimeHist);
 
         c7.highcharts().series[0].setData(Queueing.Utilization);
-        var utilizationHist = Distributions.Histrogram(Queueing.Utilization);
+        var utilizationHist = Distributions.Histogram(Queueing.Utilization);
         c8.highcharts().series[0].setData(utilizationHist);
-        c8.highcharts().series[1].setData(utilizationHist);
+        //c8.highcharts().series[1].setData(utilizationHist);
     };
 
     // Helper method to setup chart display
@@ -143,10 +143,12 @@ $(function(){
             }]
         };
         if (type === 'line'){
-            options.series[0].color = 'rgba(64, 64, 64, .85)';
+            options.series[0].color = 'rgba(64, 96, 128, .85)';
         }
         if (type === 'column'){
             options.xAxis.type = 'category';
+            options.series[0].color = 'rgba(64, 96, 128, .85)';
+            /*
             options.series.push({
                 type: 'spline',
                 animation: false,
@@ -155,6 +157,7 @@ $(function(){
                 //visible: false,
                 color: 'rgba(128, 32, 32, .85)'
             });
+            */
         }
         return elm.highcharts(options);
     };
