@@ -81,9 +81,13 @@
             }
 
             // Apply sorting rules
-            if (x > y) return 1;
-            else if (x < y) return -1; 
-            else return 0;
+            if (x > y) {
+                return 1;
+            } else if (x < y) {
+                return -1; 
+            } else {
+                return 0;
+            }
         });
 
         // See if we've had a low enough cardinality
