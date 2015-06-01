@@ -32,19 +32,49 @@
         </div>
 
         <div>
-            <label for="">Task Time-Out:</label>
-            <input type="text" value="" />
+            <label for="txtTaskTTL">Task TTL:</label>
+            <input id="txtTaskTTL" type="text" value="" />
         </div>
 
-        <div>
+        <div class="buttonBar">
             <button id="btnRun" class="green">Run Model</button>
             <button id="btnReset" class="red">Reset</button>
+        </div>
+
+        <div class="statusDisplay">
+            <h3>Summary Data</h3>
+            <table>
+                <tr>
+                    <td>Tasks completed:</td>
+                    <td>0.0</td>
+                </tr>
+                <tr>
+                    <td>Task timed-out:</td>
+                    <td>0.0</td>
+                </tr>
+                <tr>
+                    <td>Avg. Queue Length:</td>
+                    <td>0.0</td>
+                </tr>
+                <tr>
+                    <td>Avg. Wait Time:</td>
+                    <td>0.0</td>
+                </tr>
+                <tr>
+                    <td>Avg. Processing Time:</td>
+                    <td>0.0</td>
+                </tr>
+                <tr>
+                    <td>Avg. Utilization (%):</td>
+                    <td>0.0</td>
+                </tr>
+            </table>
         </div>
     </div>
 
     <div id="results">
         <div class="noModel">
-            <h3>(Adjust Model Parameters)</h3>
+            <h3>Click 'Run Model' to begin simulation</h3>
         </div>
         <div class="graph" id="arrivalsGraph"></div>
         <div class="graph" id="arrivalsHistogram"></div>
