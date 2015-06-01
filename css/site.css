@@ -48,6 +48,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     border-right: 1px solid #000; 
     padding: 1em; 
     overflow-y: scroll;
+    background: linear-gradient(#c0c0c0, #f0f0f0);
 }
 #inputPanel div { margin-bottom: 1em; }
 #inputPanel div label, #inputPanel div input { display: block; }
@@ -75,14 +76,16 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     font-weight: 100;
 }
 #results .graph { 
-    display: none; 
     width: 48%; 
     height: 20em; 
     float: left; 
     margin: 0 1em 1em 0; 
 }
+
 #results.active .graph { display: block; }
 #results.active .noModel { display: none; }
+#results.inactive .graph { display: none; }
+#results.inactive .noModel { display: block; }
 
 @media (max-width: 1024px){
     #results { padding: 1em; }

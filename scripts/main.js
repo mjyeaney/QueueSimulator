@@ -35,7 +35,7 @@ $(function(){
     $('#btnRun').click(function(){
         if (hTimer == null){
             _bindFormToModel();
-            $('#results').addClass('active');
+            $('#results').removeClass('inactive').addClass('active');
             $(this).text('Stop');
             hTimer = window.setInterval(function(){
                 if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
@@ -62,13 +62,15 @@ $(function(){
 
     // Stop run when user clicks 'reset'
     $('#btnReset').click(function(){
-        $('#results').removeClass('active');
+        $('#results').removeClass('active').addClass('inactive');
         $('#btnRun').text('Run Model');
         window.clearInterval(hTimer);
         hTimer = null;
         Queueing.Reset();
         _updateGraphData();
     });
+
+    $('#results').addClass('inactive');
 
     // Binds parameter input form to model
     function _bindFormToModel(){
