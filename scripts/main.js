@@ -47,6 +47,7 @@ $(function(){
                 } else {
                     Queueing.Drain();
                     _updateGraphData();
+                    _updateSummaryStats();
                     if (Queueing.GetWorkItemCount() === 0){
                         $('#btnRun').text('Run Model');
                         window.clearInterval(hTimer);
@@ -68,9 +69,21 @@ $(function(){
         hTimer = null;
         Queueing.Reset();
         _updateGraphData();
+        _clearSummaryStats();
     });
 
+    // Now that the graphs have had a chance to measure, 
+    // hide them and setup the initial document mode.
     $('#results').addClass('inactive');
+
+    // Some more functional array extensions
+    Array.prototype.Avg = function(){
+        var sum = 0.0;
+        for (var i = 0; i < this.length; i++){
+            sum += this[i];
+        }
+        return sum / this.length;
+    };
 
     // Binds parameter input form to model
     function _bindFormToModel(){
@@ -105,6 +118,22 @@ $(function(){
         var utilizationHist = Distributions.Histogram(Queueing.Utilization);
         c8.highcharts().series[0].setData(utilizationHist);
         //c8.highcharts().series[1].setData(utilizationHist);
+    };
+
+    // Updates the summary statistics 
+    function _updateSummaryStats(){
+        $('#txtTasksCompleted').text(Queueing.Arrivals.length);
+        $('#txtAvgQueueLength').text(Queueing.QueueLengths.Avg().toFixed(2));
+        $('#txtAvgWaitTime').text(Queueing.WaitTimes.Avg().toFixed(2));
+        $('#txtAvgUtilization').text(Queueing.Utilization.Avg().toFixed(2));
+    };
+
+    // Clears summary stats
+    function _clearSummaryStats(){
+        $('#txtTasksCompleted').text('');
+        $('#txtAvgQueueLength').text('');
+        $('#txtAvgWaitTime').text('');
+        $('#txtAvgUtilization').text('');
     };
 
     // Helper method to setup chart display
