@@ -95,10 +95,9 @@
         // Extremeties are now min/max
         min = localData[0];
         max = localData[localData.length - 1];
-        delta = max - min;
 
-        // If the range was zero-based, there is a missing slot
-        if (min === 0) delta++;
+        // Adding one here since we're counting digits (naive)
+        delta = (max - min) + 1;
         width = delta / nBins;
 
         // Initialize bins
