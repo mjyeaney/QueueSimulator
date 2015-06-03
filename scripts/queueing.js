@@ -72,7 +72,7 @@
         var arrivals = Distributions.Poisson(options.arrivalRate);
 
         // Add to queue
-        for (var a = 0; a <= arrivals; a++){
+        for (var a = 0; a < arrivals; a++){
             queue.push({Created: tickCount, Processed: 0});
         }
 
@@ -81,7 +81,7 @@
         var processed = Distributions.Poisson(finalRate);
 
         // Remove processed items
-        for (var p = 0; p <= processed; p++){
+        for (var p = 0; p < processed; p++){
             var item = queue.shift();
             if (item){
                 waitTimeHistory.push(tickCount - item.Created);
@@ -120,7 +120,7 @@
         var processed = Distributions.Poisson(4.1);
 
         // Remove processed items
-        for (var p = 0; p <= processed; p++){
+        for (var p = 0; p < processed; p++){
             var item = queue.shift();
             if (item){
                 waitTimeHistory.push(tickCount - item.Created);

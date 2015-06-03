@@ -86,6 +86,14 @@ $(function(){
         return sum / this.length;
     };
 
+    Array.prototype.Sum = function(){
+        var sum = 0.0;
+        for (var i = 0; i < this.length; i++){
+            sum += this[i];
+        }
+        return sum;
+    };
+
     // Binds parameter input form to model
     function _bindFormToModel(){
         var params = {};
@@ -110,7 +118,7 @@ $(function(){
         c4.highcharts().series[0].setData(queueLengthHist);
         //c4.highcharts().series[1].setData(queueLengthHist);
 
-        c5.highcharts().series[0].setData(Queueing.WaitTimes);
+        //c5.highcharts().series[0].setData(Queueing.WaitTimes);
         var waitTimeHist = Distributions.Histogram(Queueing.WaitTimes);
         c6.highcharts().series[0].setData(waitTimeHist);
         //c6.highcharts().series[1].setData(waitTimeHist);
@@ -123,7 +131,7 @@ $(function(){
 
     // Updates the summary statistics 
     function _updateSummaryStats(){
-        $('#txtTasksCompleted').text(Queueing.Arrivals.length);
+        $('#txtTasksCompleted').text(Queueing.Arrivals.Sum());
         $('#txtAvgQueueLength').text(Queueing.QueueLengths.Avg().toFixed(2));
         $('#txtAvgWaitTime').text(Queueing.WaitTimes.Avg().toFixed(2));
         $('#txtAvgUtilization').text(Queueing.Utilization.Avg().toFixed(2));

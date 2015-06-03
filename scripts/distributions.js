@@ -58,6 +58,7 @@
             localData = data.slice(0),
             min = 0.0,
             max = 0.0,
+            delta = 0.0,
             width = 0.0,
             bins = [],
             uniqueValues = {length: 0};
@@ -82,30 +83,28 @@
             }
 
             // Apply sorting rules
-            if (x > y) {
-                return 1;
-            } else if (x < y) {
-                return -1; 
-            } else {
-                return 0;
-            }
+            return x - y;
         });
 
         // See if we've had a low enough cardinality
         // to consider this a column-frequency chart.
         if (uniqueValues.length <= 25){
-            nBins = uniqueValues.length;
+            nBins = Math.max(1, uniqueValues.length);
         }
 
         // Extremeties are now min/max
         min = localData[0];
         max = localData[localData.length - 1];
-        width = (max - min) / nBins;
+        delta = max - min;
+
+        // If the range was zero-based, there is a missing slot
+        if (min === 0) delta++;
+        width = delta / nBins;
 
         // Initialize bins
         for (var i = 0; i < nBins; i++){
             bins[i] = ['', 0];
-            bins[i][0] = min + (i * width);
+            bins[i][0] = (min + (i * width)).toFixed(2);
         }
 
         // Find a slot for each datum
