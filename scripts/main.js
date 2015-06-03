@@ -44,6 +44,7 @@ $(function(){
 
                     // update graphs
                     _updateGraphData();
+                    _updateSummaryStats();
                 } else {
                     Queueing.Drain();
                     _updateGraphData();

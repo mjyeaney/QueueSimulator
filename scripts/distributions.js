@@ -9,6 +9,7 @@
         scope.Distributions = {};
     }
 
+    // Helper to get base-10 log method
     var _log10 = function(n){
         return Math.log(n) / Math.LN10;
     };
