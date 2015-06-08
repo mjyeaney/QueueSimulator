@@ -82,7 +82,7 @@
                 }
             }
 
-            // Apply sorting rules
+            // Apply numeric sorting rules
             return x - y;
         });
 

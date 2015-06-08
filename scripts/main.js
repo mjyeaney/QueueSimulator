@@ -76,6 +76,7 @@ $(function(){
     // Now that the graphs have had a chance to measure, 
     // hide them and setup the initial document mode.
     $('#results').addClass('inactive');
+    $('#txtArrivalRate').focus();
 
     // Some more functional array extensions
     Array.prototype.Avg = function(){
