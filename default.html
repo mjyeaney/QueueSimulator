@@ -80,6 +80,11 @@
 
     <script src="/scripts/jquery-2.1.4-min.js"></script>
     <script src="/scripts/highcharts.js"></script>
+    <script src="/scripts/mersenne-twister.js"></script>
+    <script>
+        var t = new MersenneTwister();
+        Math.random = function(){ return t.random(); }
+    </script>
     <script src="/scripts/jstat.min.js"></script>
     <script src="/scripts/distributions.js"></script>
     <script src="/scripts/queueing.js"></script>
