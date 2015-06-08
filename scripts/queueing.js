@@ -18,6 +18,7 @@
     var arrivalHistory = [],
         queueHistory = [],
         waitTimeHistory = [],
+        processingTimes = [],
         utilizationHistory = [];
 
     // System behavior params
@@ -84,6 +85,7 @@
         for (var p = 0; p < processed; p++){
             var item = queue.shift();
             if (item){
+                processingTimes.push(processed / options.serverCount);
                 waitTimeHistory.push(tickCount - item.Created);
             }
         }
@@ -123,6 +125,7 @@
         for (var p = 0; p < processed; p++){
             var item = queue.shift();
             if (item){
+                processingTimes.push(processed / options.serverCount);
                 waitTimeHistory.push(tickCount - item.Created);
             }
         }
@@ -143,6 +146,7 @@
         queueHistory.length = 0;
         waitTimeHistory.length = 0;
         utilizationHistory.length = 0;
+        processingTimes.length = 0;
     };
 
     // Export methods
@@ -156,5 +160,6 @@
     scope.Queueing.QueueLengths = queueHistory;
     scope.Queueing.WaitTimes = waitTimeHistory;
     scope.Queueing.Utilization = utilizationHistory;
+    scope.Queueing.ProcessingTimes = processingTimes;
     scope.Queueing.Reset = reset;
 })(this);

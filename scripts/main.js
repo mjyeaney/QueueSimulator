@@ -31,6 +31,12 @@ $(function(){
     var e8 = $('#utilizationHistogram'),
         c8 = _createGraph(e8, 'column', 'Utilization - Histogram', []);
 
+    var e9 = $('#processingGraph'),
+        c9 = _createGraph(e9, 'line', 'Processing Time', []);
+ 
+    var e10 = $('#processingHistogram'),
+        c10 = _createGraph(e10, 'column', 'Processing Time - Histogram', []);
+
     // Start run when user clicks 'run' button
     $('#btnRun').click(function(){
         if (hTimer == null){
@@ -43,22 +49,26 @@ $(function(){
                     Queueing.OnTick();
 
                     // update graphs
-                    _updateGraphData();
-                    _updateSummaryStats();
+                    //_updateGraphData();
+                    //_updateSummaryStats();
                 } else {
                     Queueing.Drain();
-                    _updateGraphData();
-                    _updateSummaryStats();
+                    //_updateGraphData();
+                    //_updateSummaryStats();
                     if (Queueing.GetWorkItemCount() === 0){
                         $('#btnRun').text('Run Model');
                         window.clearInterval(hTimer);
+                        _updateGraphData();
+                        _updateSummaryStats();
                     }
                 }
-            }, 50);
+            }, 0);
         } else {
             $(this).text('Run Model');
             window.clearInterval(hTimer);
             hTimer = null;
+            _updateGraphData();
+            _updateSummaryStats();
         }
     });
 
@@ -108,26 +118,30 @@ $(function(){
 
     // Helper to rebind charts to new data sources
     function _updateGraphData(){
-        // update chart data display
-        c1.highcharts().series[0].setData(Queueing.Arrivals);
-        var arrivalHist = Distributions.Histogram(Queueing.Arrivals);
+        var arrivals = Queueing.Arrivals;
+        var arrivalHist = Distributions.Histogram(arrivals);
+        c1.highcharts().series[0].setData(arrivals);
         c2.highcharts().series[0].setData(arrivalHist);
-        //c2.highcharts().series[1].setData(arrivalHist);
 
-        c3.highcharts().series[0].setData(Queueing.QueueLengths);
-        var queueLengthHist = Distributions.Histogram(Queueing.QueueLengths);
+        var queueLengths = Queueing.QueueLengths;
+        var queueLengthHist = Distributions.Histogram(queueLengths);
+        c3.highcharts().series[0].setData(queueLengths);
         c4.highcharts().series[0].setData(queueLengthHist);
-        //c4.highcharts().series[1].setData(queueLengthHist);
 
-        //c5.highcharts().series[0].setData(Queueing.WaitTimes);
-        var waitTimeHist = Distributions.Histogram(Queueing.WaitTimes);
+        var waitTimes = Queueing.WaitTimes;
+        var waitTimeHist = Distributions.Histogram(waitTimes);
+        c5.highcharts().series[0].setData(waitTimes);
         c6.highcharts().series[0].setData(waitTimeHist);
-        //c6.highcharts().series[1].setData(waitTimeHist);
 
-        c7.highcharts().series[0].setData(Queueing.Utilization);
-        var utilizationHist = Distributions.Histogram(Queueing.Utilization);
+        var utilization = Queueing.Utilization;
+        var utilizationHist = Distributions.Histogram(utilization);
+        c7.highcharts().series[0].setData(utilization);
         c8.highcharts().series[0].setData(utilizationHist);
-        //c8.highcharts().series[1].setData(utilizationHist);
+
+        var processing = Queueing.ProcessingTimes;
+        var processingHist = Distributions.Histogram(processing);
+        c9.highcharts().series[0].setData(processing);
+        c10.highcharts().series[0].setData(processingHist);
     };
 
     // Updates the summary statistics 
@@ -201,16 +215,6 @@ $(function(){
         if (type === 'column'){
             options.xAxis.type = 'category';
             options.series[0].color = 'rgba(96, 128, 164, 1.0)';
-            /*
-            options.series.push({
-                type: 'spline',
-                animation: false,
-                name: 'Curve Fit',
-                data: initData,
-                //visible: false,
-                color: 'rgba(128, 32, 32, .85)'
-            });
-            */
         }
         return elm.highcharts(options);
     };
