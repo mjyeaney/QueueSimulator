@@ -10,6 +10,11 @@
         scope.Queueing = {};
     }
 
+    // Make sure pre-req's are available
+    if (!scope.RngSupport){
+        throw 'Unable to load namespace RngSupport';
+    }
+
     // Primary system data collections
     var queue = [],
         tickCount = 0;
@@ -43,6 +48,9 @@
     // parameters.
     //
     var initialize = function(params){
+        // rng seed value
+        RngSupport.Initialize(params.randomSeed);
+
         // arrival rate
         options.arrivalRate = params.arrivalRate;
         options.simulationTime = params.simulationTime;
@@ -80,6 +88,7 @@
         // Sample from processing distribution
         var finalRate = options.processingRate * options.serverCount;
         var processed = Distributions.Poisson(finalRate);
+        //var processed = Math.floor(Distributions.Exponential(1.0 / finalRate));
 
         // Remove processed items
         for (var p = 0; p < processed; p++){
@@ -95,7 +104,6 @@
         // it can be useful to see exactly *how* overscheduled a specific 
         // server(s) is/are.
         var utilization = 0.0; 
-        //utilization = 100.0 * (arrivals / processed);
         utilization = Math.min(100.0, 100.0 * (arrivals / processed));
 
         // Special cases for utilization
@@ -120,7 +128,9 @@
         tickCount++;
 
         // Sample from processing distribution
-        var processed = Distributions.Poisson(4.1);
+        var finalRate = options.processingRate * options.serverCount;
+        var processed = Distributions.Poisson(finalRate);
+        //var processed = Math.floor(Distributions.Exponential(1.0 / finalRate));
 
         // Remove processed items
         for (var p = 0; p < processed; p++){

@@ -3,9 +3,7 @@
 //
 
 $(function(){
-    // Initialize queue lib (??)
-    var hTimer = null;
-    
+ 
     // Draw basic charts (initial)
     var e1 = $('#arrivalsGraph'),
         c1 = _createGraph(e1, 'line', 'Arrivals', []);
@@ -39,54 +37,35 @@ $(function(){
 
     // Start run when user clicks 'run' button
     $('#btnRun').click(function(){
-        if (hTimer == null){
-            _bindFormToModel();
-            $('#results').removeClass('inactive').addClass('active');
-            $(this).text('Stop');
-            hTimer = window.setInterval(function(){
-                if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
-                    // Advance world time/state
-                    Queueing.OnTick();
-
-                    // update graphs
-                    //_updateGraphData();
-                    //_updateSummaryStats();
-                } else {
-                    Queueing.Drain();
-                    //_updateGraphData();
-                    //_updateSummaryStats();
-                    if (Queueing.GetWorkItemCount() === 0){
-                        $('#btnRun').text('Run Model');
-                        window.clearInterval(hTimer);
-                        _updateGraphData();
-                        _updateSummaryStats();
-                    }
-                }
-            }, 0);
-        } else {
-            $(this).text('Run Model');
-            window.clearInterval(hTimer);
-            hTimer = null;
-            _updateGraphData();
-            _updateSummaryStats();
-        }
-    });
-
-    // Stop run when user clicks 'reset'
-    $('#btnReset').click(function(){
-        $('#results').removeClass('active').addClass('inactive');
-        $('#btnRun').text('Run Model');
-        window.clearInterval(hTimer);
-        hTimer = null;
         Queueing.Reset();
         _updateGraphData();
-        _clearSummaryStats();
+        _updateSummaryStats();
+        _bindFormToModel();
+        
+        $('#results').removeClass('inactive').addClass('active');
+        $(this).text('Running...');
+            
+        while (true){
+            if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
+                // Advance world time/state
+                Queueing.OnTick();
+            } else {
+                Queueing.Drain();
+
+                if (Queueing.GetWorkItemCount() === 0){
+                    $('#btnRun').text('Simulate');
+                    _updateGraphData();
+                    _updateSummaryStats();
+                    break;
+                }
+            }
+        }
     });
 
     // Now that the graphs have had a chance to measure, 
     // hide them and setup the initial document mode.
     $('#results').addClass('inactive');
-    $('#txtArrivalRate').focus();
+    $('#txtRngSeed').focus();
 
     // Some more functional array extensions
     Array.prototype.Avg = function(){
@@ -94,7 +73,7 @@ $(function(){
         for (var i = 0; i < this.length; i++){
             sum += this[i];
         }
-        return sum / this.length;
+        return sum / this.length
     };
 
     Array.prototype.Sum = function(){
@@ -113,6 +92,7 @@ $(function(){
         params.serverCount = parseInt($('#txtServerCount').val());
         params.processingRate = parseFloat($('#txtProcessingRate').val());
         params.enableDrainOff = true;
+        params.randomSeed = parseInt($('#txtRngSeed').val());
         Queueing.Initialize(params);
     };
 

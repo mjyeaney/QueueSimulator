@@ -12,6 +12,11 @@
 
     <div id="inputPanel">
         <div>
+            <label for="txtRngSeed">Random Seed:</label>
+            <input id="txtRngSeed" type="text" value="" />
+        </div>
+
+        <div>
             <label for="txtArrivalRate">Arrival Rate:</label>
             <input id="txtArrivalRate" type="text" value="" />
         </div>
@@ -31,14 +36,8 @@
             <input id="txtSimulationTime" type="text" value="" />
         </div>
 
-        <div>
-            <label for="txtTaskTTL">Task TTL:</label>
-            <input id="txtTaskTTL" type="text" value="" />
-        </div>
-
         <div class="buttonBar">
-            <button id="btnRun" class="green">Run Model</button>
-            <button id="btnReset" class="red">Reset</button>
+            <button id="btnRun" class="green">Simulate</button>
         </div>
 
         <div class="statusDisplay">
@@ -87,10 +86,7 @@
     <script src="/scripts/jquery-2.1.4-min.js"></script>
     <script src="/scripts/highcharts.js"></script>
     <script src="/scripts/mersenne-twister.js"></script>
-    <script>
-        var t = new MersenneTwister();
-        Math.random = function(){ return t.random(); }
-    </script>
+    <script src="/scripts/rng-support.js"></script>
     <script src="/scripts/jstat.min.js"></script>
     <script src="/scripts/distributions.js"></script>
     <script src="/scripts/queueing.js"></script>
