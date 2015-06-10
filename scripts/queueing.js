@@ -12,7 +12,7 @@
 
     // Make sure pre-req's are available
     if (!scope.RngSupport){
-        throw 'Unable to load namespace RngSupport';
+        throw 'Unable to load namespace "RngSupport"';
     }
 
     // Primary system data collections
@@ -63,7 +63,6 @@
         options.enableDrainOff = params.enableDrainOff;
         
         // TODO: timeout?
-        // TODO: number of servers?
         
         // Expose these options externally
         scope.Queueing.Options = options;
@@ -88,7 +87,6 @@
         // Sample from processing distribution
         var finalRate = options.processingRate * options.serverCount;
         var processed = Distributions.Poisson(finalRate);
-        //var processed = Math.floor(Distributions.Exponential(1.0 / finalRate));
 
         // Remove processed items
         for (var p = 0; p < processed; p++){
@@ -130,7 +128,6 @@
         // Sample from processing distribution
         var finalRate = options.processingRate * options.serverCount;
         var processed = Distributions.Poisson(finalRate);
-        //var processed = Math.floor(Distributions.Exponential(1.0 / finalRate));
 
         // Remove processed items
         for (var p = 0; p < processed; p++){

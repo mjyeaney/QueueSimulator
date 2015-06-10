@@ -6,6 +6,11 @@
 
 (function(scope){
 
+    // Make sure pre-req's are available
+    if (!MersenneTwister){
+        throw 'Unable to locate required object "MersenneTwister"';
+    }
+
     //
     // Create namespace container
     //
@@ -20,6 +25,7 @@
     // Creates a new RNG using the provided seed value
     //
     var init = function(seed){
+        console.log('Initializing RNG with seed ' + seed);
         _t = new MersenneTwister(seed);
     };
 

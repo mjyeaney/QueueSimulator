@@ -47,11 +47,9 @@ $(function(){
             
         while (true){
             if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
-                // Advance world time/state
                 Queueing.OnTick();
             } else {
                 Queueing.Drain();
-
                 if (Queueing.GetWorkItemCount() === 0){
                     $('#btnRun').text('Simulate');
                     _updateGraphData();
@@ -65,7 +63,7 @@ $(function(){
     // Now that the graphs have had a chance to measure, 
     // hide them and setup the initial document mode.
     $('#results').addClass('inactive');
-    $('#txtRngSeed').focus();
+    $('#txtRngSeed').val('1234').focus();
 
     // Some more functional array extensions
     Array.prototype.Avg = function(){
