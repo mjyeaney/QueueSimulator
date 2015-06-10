@@ -95,7 +95,8 @@
         // it can be useful to see exactly *how* overscheduled a specific 
         // server(s) is/are.
         var utilization = 0.0; 
-        utilization = 100.0 * (arrivals / processed);
+        //utilization = 100.0 * (arrivals / processed);
+        utilization = Math.min(100.0, 100.0 * (arrivals / processed));
 
         // Special cases for utilization
         if ((processed === 0) && (arrivals === 0)) {

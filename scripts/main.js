@@ -150,6 +150,7 @@ $(function(){
         $('#txtAvgQueueLength').text(Queueing.QueueLengths.Avg().toFixed(2));
         $('#txtAvgWaitTime').text(Queueing.WaitTimes.Avg().toFixed(2));
         $('#txtAvgUtilization').text(Queueing.Utilization.Avg().toFixed(2));
+        $('#txtAvgProcTime').text(Queueing.ProcessingTimes.Avg().toFixed(2));
     };
 
     // Clears summary stats
@@ -158,6 +159,7 @@ $(function(){
         $('#txtAvgQueueLength').text('');
         $('#txtAvgWaitTime').text('');
         $('#txtAvgUtilization').text('');
+        $('#txtAvgProcTime').text('');
     };
 
     // Helper method to setup chart display
@@ -171,7 +173,8 @@ $(function(){
             },
             title: {
                 text: titleText,
-                align: 'center'
+                align: 'center',
+                style: { "color": "#333333", "fontSize": "13px" }
             },
             plotOptions: {
                 column: {
@@ -195,7 +198,8 @@ $(function(){
                 title: {
                     text: '' 
                 },
-                endOnTick: true
+                endOnTick: true,
+                min: 0
             },
             legend: {
                 enabled: false 
