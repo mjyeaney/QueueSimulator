@@ -70,6 +70,9 @@
             // observed before. This will give is an indication 
             // of the approximate cardinality of the dataset.
             //
+            // I may try to substitute a HyperLogLog implementation 
+            // to perform cardinality assessment. 
+            //
             if (uniqueValues.length <= 25){
                 if (!uniqueValues.hasOwnProperty(x)){
                     uniqueValues[x] = x;
