@@ -140,8 +140,8 @@
 
         // Record history metrics
         queueHistory.push(queue.length);
-        arrivalHistory.push(0);
-        utilizationHistory.push(0);
+        arrivalHistory.push(null);
+        utilizationHistory.push(null);
     };
 
     //
