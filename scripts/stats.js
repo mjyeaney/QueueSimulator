@@ -92,7 +92,7 @@
         // See if we've had a low enough cardinality
         // to consider this a column-frequency chart.
         if (uniqueValues.length <= 25){
-            nBins = Math.max(1, uniqueValues.length);
+            nBins = Math.max(10, uniqueValues.length);
         }
 
         // Extremeties are now min/max
