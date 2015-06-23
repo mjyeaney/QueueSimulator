@@ -184,6 +184,7 @@ $(function(){
             },
             series: [{
                 type: type,
+                color: 'rgb(125, 167, 217)',
                 animation: false,
                 name: titleText,
                 pointPadding: 0,
@@ -191,12 +192,8 @@ $(function(){
                 data: initData
             }]
         };
-        if (type === 'line'){
-            options.series[0].color = 'rgba(96, 128, 164, 1.0)';
-        }
         if (type === 'column'){
             options.xAxis.type = 'category';
-            options.series[0].color = 'rgba(96, 128, 164, 1.0)';
         }
         return elm.highcharts(options);
     };
