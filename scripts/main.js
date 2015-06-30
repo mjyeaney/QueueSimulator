@@ -49,13 +49,13 @@ $(function(){
             if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
                 Queueing.OnTick();
             } else {
-                Queueing.Drain();
-                if (Queueing.GetWorkItemCount() === 0){
+                //Queueing.Drain();
+                //if (Queueing.GetWorkItemCount() === 0){
                     $('#btnRun').text('Simulate');
                     _updateGraphData();
                     _updateSummaryStats();
                     break;
-                }
+               // }
             }
         }
     });

@@ -68,6 +68,8 @@
         scope.Queueing.Options = options;
     };
 
+    var _deniedCount = 0;
+
     //
     // Advances the system logical clock by one event-tick, updating
     // all internal state to reflect this new tick.
@@ -90,8 +92,36 @@
 
         // Remove processed items
         for (var p = 0; p < processed; p++){
-            var item = queue.shift();
-            if (item){
+
+            // NOTE: QoS experiment
+            var item = null,
+                qosLimit = 10,
+                qosMaxLifetime = 30;
+
+            var getWorkItem = function(){
+                if (queue.length > qosLimit){
+                    item = queue.pop();
+                } else {
+                    item = queue.shift();
+                }
+            };
+
+            getWorkItem();
+            //item = queue.shift();
+
+            // Kill items that are too old
+            while (item){
+                var waitTime = tickCount - item.Created;
+                if (waitTime > qosMaxLifetime){
+                    _deniedCount++;
+                    getWorkItem();
+                    //item = queue.shift();
+                } else {
+                    break;
+                }
+            }
+
+            if (item) {
                 processingTimes.push(processed / options.serverCount);
                 waitTimeHistory.push(tickCount - item.Created);
             }
@@ -131,7 +161,35 @@
 
         // Remove processed items
         for (var p = 0; p < processed; p++){
+            /*
+            // NOTE: QoS experiment
+            var item = null,
+                qosLimit = 10,
+                qosMaxLifetime = 30;
+
+            var getWorkItem = function(){
+                if (queue.length > qosLimit){
+                    item = queue.pop();
+                } else {
+                    item = queue.shift();
+                }
+            };
+
+            getWorkItem();
+
+            // Kill items that are too old
+            while (item){
+                var waitTime = tickCount - item.Created;
+                if (waitTime > qosMaxLifetime){
+                    getWorkItem();
+                } else {
+                    break;
+                }
+            }
+            */
+            
             var item = queue.shift();
+
             if (item){
                 processingTimes.push(processed / options.serverCount);
                 waitTimeHistory.push(tickCount - item.Created);
@@ -170,4 +228,6 @@
     scope.Queueing.Utilization = utilizationHistory;
     scope.Queueing.ProcessingTimes = processingTimes;
     scope.Queueing.Reset = reset;
+
+    scope.Queueing.GetDeniedCount = function(){ return _deniedCount; };
 })(this);
