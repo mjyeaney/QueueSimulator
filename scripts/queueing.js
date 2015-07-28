@@ -3,6 +3,16 @@
 // This is the core system we will monitor externally, and use to
 // drive our visualization dashboard.
 //
+// Also supported is an option to apply QoS strategies in order to 
+// minimize head-of-line blocking effects. This is handled by dynamically
+// switching the queue reader strategy from FIFO to LIFO (and back again) 
+// if the system has passed a given metric threshold.
+//
+// Things still on the to-do list: 
+// - Need to supply an option flag to allow toggling of QoS behaviors
+// - Much more logging needed...visualize all the things!
+// - Add tests.
+//
 
 (function(scope){
     // make sure namespace exsists
@@ -61,8 +71,12 @@
 
         // enable drain off
         options.enableDrainOff = params.enableDrainOff;
+
+        // Apply QoS policy
+        options.enableQos = params.enableQos;
         
-        // TODO: timeout?
+        // Timeout
+        options.taskTimeout = params.taskTimeout;
         
         // Expose these options externally
         scope.Queueing.Options = options;
@@ -75,49 +89,54 @@
     // all internal state to reflect this new tick.
     //
     var onTick = function(){
+        // TODO: Move these out to the simulation config
+        var qosLimit = 10,
+            qosMaxLifetime = 30;
+
         // Advance logical time counter
         tickCount++;
 
         // Sample from arrival source
         var arrivals = Distributions.Poisson(options.arrivalRate);
 
-        // Add to queue
+        // Add arrivals to input queue
         for (var a = 0; a < arrivals; a++){
             queue.push({Created: tickCount, Processed: 0});
         }
 
-        // Sample from processing distribution
+        // Sample from processing distribution, and decide 
+        // how many items to process.
         var finalRate = options.processingRate * options.serverCount;
         var processed = Distributions.Poisson(finalRate);
 
+        // Helper to get work item
+        var getWorkItem = function(){
+            if (options.enableQos){
+                if (queue.length > qosLimit){
+                    return queue.pop();
+                } else {
+                    return queue.shift();
+                }
+            } else {
+                return queue.shift();
+            }
+        };
+
         // Remove processed items
         for (var p = 0; p < processed; p++){
-
-            // NOTE: QoS experiment
-            var item = null,
-                qosLimit = 10,
-                qosMaxLifetime = 30;
-
-            var getWorkItem = function(){
-                if (queue.length > qosLimit){
-                    item = queue.pop();
-                } else {
-                    item = queue.shift();
-                }
-            };
-
-            getWorkItem();
-            //item = queue.shift();
+            // Get item to work on
+            var item = getWorkItem();
 
             // Kill items that are too old
-            while (item){
-                var waitTime = tickCount - item.Created;
-                if (waitTime > qosMaxLifetime){
-                    _deniedCount++;
-                    getWorkItem();
-                    //item = queue.shift();
-                } else {
-                    break;
+            if (options.enableQos){
+                while (item){
+                    var waitTime = tickCount - item.Created;
+                    if (waitTime > qosMaxLifetime){
+                        _deniedCount++;
+                        item = getWorkItem();
+                    } else {
+                        break;
+                    }
                 }
             }
 
@@ -161,15 +180,18 @@
 
         // Remove processed items
         for (var p = 0; p < processed; p++){
-            /*
             // NOTE: QoS experiment
             var item = null,
                 qosLimit = 10,
                 qosMaxLifetime = 30;
 
             var getWorkItem = function(){
-                if (queue.length > qosLimit){
-                    item = queue.pop();
+                if (options.enableQos){
+                    if (queue.length > qosLimit){
+                        item = queue.pop();
+                    } else {
+                        item = queue.shift();
+                    }
                 } else {
                     item = queue.shift();
                 }
@@ -181,14 +203,12 @@
             while (item){
                 var waitTime = tickCount - item.Created;
                 if (waitTime > qosMaxLifetime){
+                    _deniedCount++;
                     getWorkItem();
                 } else {
                     break;
                 }
             }
-            */
-            
-            var item = queue.shift();
 
             if (item){
                 processingTimes.push(processed / options.serverCount);
