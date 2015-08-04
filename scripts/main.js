@@ -89,9 +89,9 @@ $(function(){
         params.arrivalRate = parseFloat($('#txtArrivalRate').val());
         params.serverCount = parseInt($('#txtServerCount').val());
         params.processingRate = parseFloat($('#txtProcessingRate').val());
-        params.enableDrainOff = false;
         params.randomSeed = parseInt($('#txtRngSeed').val());
-        params.enableQos = true;
+        params.enableDrainOff = false;
+        params.enableQos = $('#cbApplyQoS').prop('checked');
         params.taskTimeout = 30;
         Queueing.Initialize(params);
     };

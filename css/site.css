@@ -51,8 +51,10 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 }
 #inputPanel div { margin-bottom: 1em; }
 #inputPanel div label, #inputPanel div input { display: block; }
+#inputPanel div.checkbox label, #inputPanel div.checkbox input { display: inline-block; }
 #inputPanel div label { line-height: 1.5em; }
 #inputPanel div input { width: 17em; }
+#inputPanel div.checkbox input { width: auto; }
 #inputPanel .buttonBar { text-align: center; margin-bottom: 2em; }
 #inputPanel div button { margin-right: .5em; }
 #inputPanel .statusDisplay tr { height: 1.5em; }
