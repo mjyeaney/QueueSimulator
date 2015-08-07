@@ -167,62 +167,6 @@
     };
 
     //
-    // Drains off any remaining work; that is, continues processing 
-    // without any new arrivals into the system.
-    //
-    var drain = function(){
-        // Advance logical time counter
-        tickCount++;
-
-        // Sample from processing distribution
-        var finalRate = options.processingRate * options.serverCount;
-        var processed = Distributions.Poisson(finalRate);
-
-        // Remove processed items
-        for (var p = 0; p < processed; p++){
-            // NOTE: QoS experiment
-            var item = null,
-                qosLimit = 10,
-                qosMaxLifetime = 30;
-
-            var getWorkItem = function(){
-                if (options.enableQos){
-                    if (queue.length > qosLimit){
-                        item = queue.pop();
-                    } else {
-                        item = queue.shift();
-                    }
-                } else {
-                    item = queue.shift();
-                }
-            };
-
-            getWorkItem();
-
-            // Kill items that are too old
-            while (item){
-                var waitTime = tickCount - item.Created;
-                if (waitTime > qosMaxLifetime){
-                    _deniedCount++;
-                    getWorkItem();
-                } else {
-                    break;
-                }
-            }
-
-            if (item){
-                processingTimes.push(processed / options.serverCount);
-                waitTimeHistory.push(tickCount - item.Created);
-            }
-        }
-
-        // Record history metrics
-        queueHistory.push(queue.length);
-        arrivalHistory.push(null);
-        utilizationHistory.push(null);
-    };
-
-    //
     // Resets and clears all internal system state.
     //
     var reset = function(){
@@ -240,7 +184,6 @@
     scope.Queueing.Initialize = initialize;
     scope.Queueing.GetTicks = getTicks;
     scope.Queueing.OnTick = onTick;
-    scope.Queueing.Drain = drain;
     scope.Queueing.GetWorkItemCount = getWorkItemCount;
     scope.Queueing.Arrivals = arrivalHistory;
     scope.Queueing.QueueLengths = queueHistory;
