@@ -34,7 +34,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     left: 0; 
     top: 0; /* 4.05em;  */
     bottom: 0; 
-    width: 16em; 
+    width: 17em; 
     background-color: #c0c0c0; 
     border-right: 1px solid #000; 
     padding: 1em; 
@@ -64,7 +64,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 
 #results { 
     position: absolute; 
-    left: 18em; 
+    left: 19em; 
     top: 0; /* 4.05em; */
     right: 0; 
     bottom: 0; 
