@@ -36,17 +36,16 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     bottom: 0; 
     width: 17em; 
     background-color: #c0c0c0; 
-    border-right: 1px solid #000; 
+    border-right: 1px solid #ccc;
     padding: 1em; 
     overflow-y: scroll;
-    background: linear-gradient(#c0c0c0, #f0f0f0);
+    background: #e0dfe3;
 }
 
 #inputPanel h1 { 
-    font-size: 1.1em;
+    font-size: 1.25em;
     text-transform: uppercase;
-    margin-bottom: 2em;
-    text-shadow: 0px 2px 2px #aaa;
+    margin-bottom: 1em;
     text-align: center;
 }
 #inputPanel div { margin-bottom: 1em; }
