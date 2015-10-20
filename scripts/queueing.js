@@ -91,13 +91,18 @@
     var onTick = function(){
         // TODO: Move these out to the simulation config
         var qosLimit = 10,
-            qosMaxLifetime = 30;
+            qosMaxLifetime = 30,
+            arrivals = 0,
+            finalRate = 0.0,
+            processed = 0,
+            getWorkItem = null,
+            utilization = 0.0;
 
         // Advance logical time counter
         tickCount++;
 
         // Sample from arrival source
-        var arrivals = Distributions.Poisson(options.arrivalRate);
+        arrivals = Distributions.Poisson(options.arrivalRate);
 
         // Add arrivals to input queue
         for (var a = 0; a < arrivals; a++){
@@ -106,12 +111,16 @@
 
         // Sample from processing distribution, and decide 
         // how many items to process.
-        var finalRate = options.processingRate * options.serverCount;
-        var processed = Distributions.Poisson(finalRate);
+        finalRate = options.processingRate * options.serverCount;
+        processed = Distributions.Poisson(finalRate);
 
         // Helper to get work item
-        var getWorkItem = function(){
+        getWorkItem = function(){
             if (options.enableQos){
+                //
+                // NOTE: This can be simulated via linked-list structure, either 
+                // in memory or vai storage structure.
+                //
                 if (queue.length > qosLimit){
                     return queue.pop();
                 } else {
@@ -150,7 +159,6 @@
         // (While utilization can never be > 100%,
         // it can be useful to see exactly *how* overscheduled a specific 
         // server(s) is/are.
-        var utilization = 0.0; 
         utilization = Math.min(100.0, 100.0 * (arrivals / processed));
 
         // Special cases for utilization
