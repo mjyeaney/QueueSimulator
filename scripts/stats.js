@@ -53,8 +53,7 @@
     // Creates a set of bins representing histrogram profile
     //
     var createHistogramBins = function(data){
-        // Note we are using Sturge's method for bins here
-        var nBins = Math.ceil(Math.log(data.length) / Math.LN2 + 1),
+        var nBins = 0,
             localData = data.slice(0),
             min = 0.0,
             max = 0.0,
@@ -62,6 +61,9 @@
             width = 0.0,
             bins = [],
             uniqueValues = {length: 0};
+
+        // Apply Sturge's method to determin bin counts
+        nBins = Math.ceil(Math.log(data.length) / Math.LN2 + 1);
 
         // Figure out cardinality and sort data
         localData.sort(function(x, y){
