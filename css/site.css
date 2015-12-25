@@ -32,15 +32,28 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #titleBar {
     height: 4em;
     background-color: #505050;
+    position: relative;
 }
 
 #titleBar h1 {
     background-color: #24548e;
     color: #fff;
     float: left;
-    line-height: 2em;
-    padding: 0 1.4em 0 .5em;
+    line-height: 2.7em;
+    padding: 0 4.55em 0 .75em;
     border-right: 1px solid #09c;
+    font-size: 1.5em;
+}
+
+#titleBar ul { list-style-type: none; position: absolute; right: 0; }
+#titleBar ul li { text-align: right; line-height: 4em;}
+#titleBar ul li a { color: #fff; display: inline-block; margin: 0 1em;}
+#titleBar ul li a:before {
+    content: "";
+    display: inline-block;
+    border: 20px solid #ccc;
+    border-radius: 20px;
+    margin-right: 1em;
 }
 
 #inputPanel { 
@@ -78,7 +91,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #results { 
     position: absolute; 
     left: 19em; 
-    top: 0; /* 4.05em; */
+    top: 4em;
     right: 0; 
     bottom: 0; 
     overflow-y: scroll; 
