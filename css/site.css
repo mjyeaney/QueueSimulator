@@ -29,10 +29,24 @@ button.red { background-color: #966; }
 h1, h2, h3, h4, h5, h6 { font-weight: 100; }
 a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 
+#titleBar {
+    height: 4em;
+    background-color: #505050;
+}
+
+#titleBar h1 {
+    background-color: #24548e;
+    color: #fff;
+    float: left;
+    line-height: 2em;
+    padding: 0 1.4em 0 .5em;
+    border-right: 1px solid #09c;
+}
+
 #inputPanel { 
     position: absolute; 
     left: 0; 
-    top: 0; /* 4.05em;  */
+    top: 4em;
     bottom: 0; 
     width: 17em; 
     background-color: #c0c0c0; 
