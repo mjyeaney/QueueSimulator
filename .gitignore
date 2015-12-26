@@ -4,9 +4,9 @@
 
 .project
 .metadata
-bin/
-obj/
-tmp/
+[Bb]in/
+[Oo]bj/
+[Tt]mp/
 *.tmp
 *.bak
 *.swp
