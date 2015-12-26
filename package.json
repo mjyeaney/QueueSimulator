@@ -3,16 +3,10 @@
   "version": "1.0.0",
   "description": "Visual simulation of M/M/1 queuing behaviors.",
   "main": "",
-  "directories": {
-    "test": "tests"
-  },
+  "directories": {},
   "dependencies": {},
-  "devDependencies": {
-    "mocha": "^2.2.5"
-  },
-  "scripts": {
-    "test": "mocha"
-  },
+  "devDependencies": {},
+  "scripts": {},
   "author": "Michael Yeaney",
   "license": "ISC"
 }
