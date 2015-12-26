@@ -43,7 +43,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     float: left;
     line-height: 2.6em;
     padding: 0 2em 0 1em;
-    border-right: 1px solid #09c;
+    border-right: 1px solid #393939;
     font-size: 1.5em;
 }
 #titleBar h1 span {
