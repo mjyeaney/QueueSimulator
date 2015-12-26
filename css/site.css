@@ -11,7 +11,7 @@ input, select, textarea {
     font-size: 13px; 
     color: #111; 
     padding: .5em; 
-    border: 1px solid #a0b0d0; 
+    border: 1px solid #a0a0a0; 
     border-radius: 5px;
 }
 select { box-model: content-box; }
@@ -26,6 +26,8 @@ button {
 button.green { background-color: #696; }
 button.red { background-color: #966; }
 
+input:focus, select:focus, textarea:focus { outline: none; border-bottom: 1px solid #000;}
+
 h1, h2, h3, h4, h5, h6 { font-weight: 100; }
 a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 
@@ -39,21 +41,31 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     background-color: #24548e;
     color: #fff;
     float: left;
-    line-height: 2.7em;
-    padding: 0 4.55em 0 .75em;
+    line-height: 2.6em;
+    padding: 0 2em 0 1em;
     border-right: 1px solid #09c;
     font-size: 1.5em;
 }
+#titleBar h1 span {
+    font-size: .65em;
+}
 
 #titleBar ul { list-style-type: none; position: absolute; right: 0; }
-#titleBar ul li { text-align: right; line-height: 4em;}
+#titleBar ul li { 
+    text-align: right;
+    line-height: 4em;
+    position: relative;
+    margin-right: 1em;
+}
 #titleBar ul li a { color: #fff; display: inline-block; margin: 0 1em;}
-#titleBar ul li a:before {
+#titleBar ul li:before {
     content: "";
     display: inline-block;
-    border: 20px solid #ccc;
+    border: 20px solid #777;
     border-radius: 20px;
-    margin-right: 1em;
+    position: absolute;
+    top: .5em;
+    left: -2.5em;
 }
 
 #inputPanel { 
