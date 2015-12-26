@@ -6,10 +6,10 @@ $(function(){
  
     // Draw basic charts (initial)
     var e1 = $('#arrivalsGraph'),
-        c1 = _createGraph(e1, 'line', 'Arrivals', []);
+        c1 = _createGraph(e1, 'line', 'Arrival Rate', []);
     
     var e2 = $('#arrivalsHistogram'),
-        c2 = _createGraph(e2, 'column', 'Arrival Histogram', []);
+        c2 = _createGraph(e2, 'column', 'Arrival Rate - Histogram', []);
 
     var e3 = $('#queueLengthGraph'),
         c3 = _createGraph(e3, 'line', 'Queue Length', []);
@@ -18,10 +18,10 @@ $(function(){
         c4 = _createGraph(e4, 'column', 'Queue Length - Histogram', []);
 
     var e5 = $('#waitTimesGraph'),
-        c5 = _createGraph(e5, 'line', 'Wait Times', []);
+        c5 = _createGraph(e5, 'line', 'Wait Time', []);
 
     var e6 = $('#waitTimesHistogram'),
-        c6 = _createGraph(e6, 'column', 'Wait Times - Histogram', []);
+        c6 = _createGraph(e6, 'column', 'Wait Time - Histogram', []);
     
     var e7 = $('#utilizationGraph'),
         c7 = _createGraph(e7, 'line', 'Utilization', []);
@@ -30,10 +30,10 @@ $(function(){
         c8 = _createGraph(e8, 'column', 'Utilization - Histogram', []);
 
     var e9 = $('#processingGraph'),
-        c9 = _createGraph(e9, 'line', 'Processing Time', []);
+        c9 = _createGraph(e9, 'line', 'Processing Rate', []);
  
     var e10 = $('#processingHistogram'),
-        c10 = _createGraph(e10, 'column', 'Processing Time - Histogram', []);
+        c10 = _createGraph(e10, 'column', 'Processing Rate - Histogram', []);
 
     // Start run when user clicks 'run' button
     $('#btnRun').click(function(){
@@ -51,7 +51,7 @@ $(function(){
             } else {
                 //Queueing.Drain();
                 //if (Queueing.GetWorkItemCount() === 0){
-                    $('#btnRun').text('Simulate');
+                    $('#btnRun').text('Run');
                     _updateGraphData();
                     _updateSummaryStats();
                     break;

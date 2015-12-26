@@ -69,16 +69,17 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 }
 
 #inputPanel { 
-    position: absolute; 
-    left: 0; 
-    top: 4em;
-    bottom: 0; 
-    width: 17em; 
-    background-color: #c0c0c0; 
+    position: absolute;
+    left: 0;
+    top: 4.6em;
+    bottom: 0;
+    width: 19.5em;
+    background-color: #c0c0c0;
     border-right: 1px solid #ccc;
-    padding: 1em; 
+    padding: 1em;
     overflow-y: scroll;
     background: #e0dfe3;
+    font-size: .875em;
 }
 
 #inputPanel h1 { 
