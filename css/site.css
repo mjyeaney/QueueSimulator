@@ -32,18 +32,17 @@ h1, h2, h3, h4, h5, h6 { font-weight: 100; }
 a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 
 #titleBar {
-    height: 4em;
-    background-color: #505050;
+    height: 3.95em;
     position: relative;
+    background: linear-gradient(to right, #24548e, #303030);
+    border-bottom: 1px solid #000;
 }
 
 #titleBar h1 {
-    background-color: #24548e;
     color: #fff;
     float: left;
     line-height: 2.6em;
     padding: 0 2em 0 1em;
-    border-right: 1px solid #393939;
     font-size: 1.5em;
 }
 #titleBar h1 span {
