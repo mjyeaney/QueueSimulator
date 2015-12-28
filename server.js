@@ -3,7 +3,7 @@
 // bootstrapped by the Azure runtime.
 //
 
-// For now just manually bind to a socket.
+// Pull in libs and bootstrap env
 var express = require('express')
 var app = express();
 
@@ -19,5 +19,5 @@ app.use(express.static(__dirname, {
 var server = app.listen(port, function () {
   var host = server.address().address;
   var port = server.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('Server now listening at http://%s:%s', host, port);
 });

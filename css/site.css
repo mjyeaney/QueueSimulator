@@ -27,7 +27,7 @@ button.green { background-color: #696; }
 button.red { background-color: #a99; color: #333;}
 button.grey { background-color: #aaa; color: #333;}
 
-input:focus, select:focus, textarea:focus { outline: none; border-bottom: 1px solid #c60; box-shadow: 0 0 5px #fa0; transition: all .25s;}
+input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 5px #0af; transition: all .25s;}
 
 h1, h2, h3, h4, h5, h6 { font-weight: 100; }
 a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
@@ -128,6 +128,10 @@ color: #fff;
     margin-top: 15em;
     text-align: center;
     font-weight: 100;
+}
+#results .noModel h3 {
+    width: 20em;
+    margin: 0 auto;
 }
 #results .graph { 
     width: 48%; 
