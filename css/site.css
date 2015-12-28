@@ -24,10 +24,10 @@ button {
     cursor: pointer; 
 }
 button.green { background-color: #696; }
-button.red { background-color: #966; }
-button.grey { background-color: #666; }
+button.red { background-color: #a99; color: #333;}
+button.grey { background-color: #aaa; color: #333;}
 
-input:focus, select:focus, textarea:focus { outline: none; border-bottom: 1px solid #c60;}
+input:focus, select:focus, textarea:focus { outline: none; border-bottom: 1px solid #c60; box-shadow: 0 0 5px #fa0; transition: all .25s;}
 
 h1, h2, h3, h4, h5, h6 { font-weight: 100; }
 a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
@@ -40,10 +40,10 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 }
 
 #titleBar h1 {
-    color: #fff;
+color: #fff;
     float: left;
     line-height: 2.6em;
-    padding: 0 2em 0 1em;
+    padding: 0 2em 0 0.5em;
     font-size: 1.5em;
 }
 #titleBar h1 span {
@@ -82,12 +82,25 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
     font-size: .875em;
 }
 
-#inputPanel h1 { 
-    font-size: 1.25em;
-    text-transform: uppercase;
+#inputPanel .navPanel { 
+    height: 3em;
+    background-color: #e6e6e6;
+    margin: -1em;
     margin-bottom: 1em;
-    text-align: center;
+    border-bottom: 1px solid #a0a0a0;
+    padding: 0 .5em;
 }
+#inputPanel .navPanel a { 
+    display: inline-block;
+    height: 3em;
+    background-image: url(/images/back.png);
+    background-position: left center;
+    background-repeat: no-repeat;
+    line-height: 3em;
+    padding-left: 2.25em;
+    color: #000;
+}
+
 #inputPanel div { margin-bottom: 1em; }
 #inputPanel div label, #inputPanel div input { display: block; }
 #inputPanel div.checkbox label, #inputPanel div.checkbox input { display: inline-block; }
