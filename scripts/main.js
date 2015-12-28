@@ -63,7 +63,7 @@ $(function(){
     // Now that the graphs have had a chance to measure, 
     // hide them and setup the initial document mode.
     $('#results').addClass('inactive');
-    $('#txtRngSeed').val('1234').focus();
+    $('#txtRngSeed').val('123456').focus();
 
     // Some more functional array extensions
     Array.prototype.Avg = function(){
@@ -92,7 +92,7 @@ $(function(){
         params.processingDistribution = $('#lstProcessingDist').val();
         params.processingRate = parseFloat($('#txtProcessingRate').val());
         params.randomSeed = parseInt($('#txtRngSeed').val());
-        params.enableDrainOff = false;
+        params.enableDrainOff = true;
         params.enableQos = $('#cbApplyQoS').prop('checked');
         params.taskTimeout = 30;
         console.log(params);
