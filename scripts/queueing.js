@@ -63,10 +63,12 @@
 
         // arrival rate
         options.arrivalRate = params.arrivalRate;
+        options.arrivalDistribution = params.arrivalDistribution;
         options.simulationTime = params.simulationTime;
 
         // processing rate
         options.processingRate = params.processingRate;
+        options.processingDistribution = params.processingDistribution;
         options.serverCount = params.serverCount;
 
         // enable drain off
@@ -81,7 +83,29 @@
         // Expose these options externally
         scope.Queueing.Options = options;
     };
+    
+    //
+    // Returns a random variable sample value based on 
+    // a specified type.
+    //
+    var sampleRandomDistribution = function(distribution, rate){
+        var retVal = 0.0;
+        switch (distribution){
+            case 'Poisson':
+                retVal = Distributions.Poisson(rate);
+                break;
+            
+            case 'Constant':
+                retVal = rate;
+                break;
+        }
+        return retVal;
+    };
 
+    //
+    // TODO: Need to track this as a collection of requests that have been 
+    // dropped (or denied) service.
+    //
     var _deniedCount = 0;
 
     //
@@ -102,7 +126,7 @@
         tickCount++;
 
         // Sample from arrival source
-        arrivals = Distributions.Poisson(options.arrivalRate);
+        arrivals = sampleRandomDistribution(options.arrivalDistribution, options.arrivalRate);
 
         // Add arrivals to input queue
         for (var a = 0; a < arrivals; a++){
@@ -112,7 +136,7 @@
         // Sample from processing distribution, and decide 
         // how many items to process.
         finalRate = options.processingRate * options.serverCount;
-        processed = Distributions.Poisson(finalRate);
+        processed = sampleRandomDistribution(options.processingDistribution, finalRate);
 
         // Helper to get work item
         getWorkItem = function(){

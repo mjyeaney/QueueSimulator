@@ -86,13 +86,16 @@ $(function(){
     function _bindFormToModel(){
         var params = {};
         params.simulationTime = parseInt($('#txtSimulationTime').val());
+        params.arrivalDistribution = $('#lstArrivalDist').val();
         params.arrivalRate = parseFloat($('#txtArrivalRate').val());
         params.serverCount = parseInt($('#txtServerCount').val());
+        params.processingDistribution = $('#lstProcessingDist').val();
         params.processingRate = parseFloat($('#txtProcessingRate').val());
         params.randomSeed = parseInt($('#txtRngSeed').val());
         params.enableDrainOff = false;
         params.enableQos = $('#cbApplyQoS').prop('checked');
         params.taskTimeout = 30;
+        console.log(params);
         Queueing.Initialize(params);
     };
 
