@@ -14,7 +14,7 @@ input, select, textarea {
     border: 1px solid #a0a0a0; 
     border-radius: 5px;
 }
-select { box-model: content-box; }
+select { box-sizing: content-box; }
 button { 
     font-size: 1em; 
     color: #fff; 
@@ -25,8 +25,9 @@ button {
 }
 button.green { background-color: #696; }
 button.red { background-color: #966; }
+button.grey { background-color: #666; }
 
-input:focus, select:focus, textarea:focus { outline: none; border-bottom: 1px solid #000;}
+input:focus, select:focus, textarea:focus { outline: none; border-bottom: 1px solid #c60;}
 
 h1, h2, h3, h4, h5, h6 { font-weight: 100; }
 a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
@@ -91,7 +92,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #inputPanel div label, #inputPanel div input { display: block; }
 #inputPanel div.checkbox label, #inputPanel div.checkbox input { display: inline-block; }
 #inputPanel div label { line-height: 1.5em; }
-#inputPanel div input { width: 17em; }
+#inputPanel div input, #inputPanel div select { width: 17em; }
 #inputPanel div.checkbox input { width: auto; }
 #inputPanel .buttonBar { text-align: center; margin-bottom: 2em; }
 #inputPanel div button { margin-right: .5em; }
