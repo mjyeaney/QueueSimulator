@@ -15,6 +15,8 @@ app.use(express.static(__dirname, {
     index : 'default.html'
 }));
 
+// Setup routes
+
 // Init server loop
 var server = app.listen(port, function () {
   var host = server.address().address;

@@ -4,7 +4,9 @@
 
 $(function(){
  
-    // Draw basic charts (initial)
+    //
+    // Initialize  charts placeholders (initial)
+    //
     var e1 = $('#arrivalsGraph'),
         c1 = _createGraph(e1, 'line', 'Arrival Rate', []);
     
@@ -35,33 +37,40 @@ $(function(){
     var e10 = $('#processingHistogram'),
         c10 = _createGraph(e10, 'column', 'Processing Rate - Histogram', []);
 
-    // Start run when user clicks 'run' button
+    //
+    // Start simulation loop when user clicks 'run' button.
+    //
     $('#btnRun').click(function(){
-        Queueing.Reset();
-        _updateGraphData();
-        _updateSummaryStats();
-        _bindFormToModel();
-        
+        // Reset our environment and update DOM state
         $('#results').removeClass('inactive').addClass('active');
-        $(this).text('Running...');
+        $(this).text($(this).data('busy-text'));
+        
+        Queueing.Reset();
+        // _updateGraphData();
+        // _updateSummaryStats();
+        _bindFormToModel();
             
-        while (true){
-            if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
-                Queueing.OnTick();
-            } else {
-                //Queueing.Drain();
-                //if (Queueing.GetWorkItemCount() === 0){
-                    $('#btnRun').text('Run');
-                    _updateGraphData();
-                    _updateSummaryStats();
-                    break;
-                //}
+        // Let our DOM updates fire before starting simulation loop
+        setTimeout(function(){
+            while (true){
+                if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
+                    Queueing.OnTick();
+                } else {
+                    //Queueing.Drain();
+                    //if (Queueing.GetWorkItemCount() === 0){
+                        $('#btnRun').text($('#btnRun').data('idle-text'));
+                        _updateGraphData();
+                        _updateSummaryStats();
+                        break;
+                    //}
+                }
             }
-        }
+        }, 50);
     });
 
-    // Now that the graphs have had a chance to measure, 
-    // hide them and setup the initial document mode.
+    //
+    // Setup the initial page view state.
+    //
     $('#results').addClass('inactive');
     $('#txtRngSeed').val('123456').focus();
 
