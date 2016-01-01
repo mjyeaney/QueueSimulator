@@ -15,6 +15,19 @@ app.use(express.static(__dirname, {
     index : 'default.html'
 }));
 
+app.get('/Home', function(req, res){
+    res.sendFile(__dirname + '/default.html');
+});
+
+app.get('/Model', function(req, res){
+   res.sendFile(__dirname + '/model.html'); 
+});
+
+app.post('/Model', function(req, res){
+    console.log("Received POST to /model");
+    res.status(200).end();
+});
+
 // Setup routes
 
 // Init server loop

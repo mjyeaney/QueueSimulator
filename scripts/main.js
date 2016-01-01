@@ -46,8 +46,8 @@ $(function(){
         $(this).text($(this).data('busy-text'));
         
         Queueing.Reset();
-        // _updateGraphData();
-        // _updateSummaryStats();
+        _updateGraphData();
+        _updateSummaryStats();
         _bindFormToModel();
             
         // Let our DOM updates fire before starting simulation loop

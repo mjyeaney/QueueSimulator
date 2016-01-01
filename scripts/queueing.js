@@ -96,6 +96,11 @@
                 break;
             
             case 'Constant':
+                // NOTE: Even though this sample yields a constant value, we
+                // still sample from the RNG lib in order to maintain
+                // internal state. Could be any sample, but we'll keep 
+                // it consistent.
+                Distributions.Poisson(rate);
                 retVal = rate;
                 break;
         }
@@ -129,7 +134,7 @@
         arrivals = sampleRandomDistribution(options.arrivalDistribution, options.arrivalRate);
 
         // Add arrivals to input queue
-        for (var a = 0; a < arrivals; a++){
+        for (var a = 0; a <  arrivals; a++){
             queue.push({Created: tickCount, Processed: 0});
         }
 
