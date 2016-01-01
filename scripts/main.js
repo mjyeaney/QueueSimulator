@@ -45,27 +45,30 @@ $(function(){
         $('#results').removeClass('inactive').addClass('active');
         $(this).text($(this).data('busy-text'));
         
-        Queueing.Reset();
-        _updateGraphData();
-        _updateSummaryStats();
-        _bindFormToModel();
-            
-        // Let our DOM updates fire before starting simulation loop
+        // TODO: Wrap in an async-delegate signature
         setTimeout(function(){
-            while (true){
-                if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
-                    Queueing.OnTick();
-                } else {
-                    //Queueing.Drain();
-                    //if (Queueing.GetWorkItemCount() === 0){
-                        $('#btnRun').text($('#btnRun').data('idle-text'));
-                        _updateGraphData();
-                        _updateSummaryStats();
-                        break;
-                    //}
+            Queueing.Reset();
+            _updateGraphData();
+            _updateSummaryStats();
+            _bindFormToModel();
+                
+            // TODO: Wrap in an async-delegate signature
+            setTimeout(function(){
+                while (true){
+                    if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
+                        Queueing.OnTick();
+                    } else {
+                        //Queueing.Drain();
+                        //if (Queueing.GetWorkItemCount() === 0){
+                            $('#btnRun').text($('#btnRun').data('idle-text'));
+                            _updateGraphData();
+                            _updateSummaryStats();
+                            break;
+                        //}
+                    }
                 }
-            }
-        }, 50);
+            }, 0);
+        }, 0);
     });
 
     //
