@@ -97,9 +97,13 @@
             
             case 'Constant':
                 // NOTE: Even though this sample yields a constant value, we
-                // still sample from the RNG lib in order to maintain
+                // must still sample from the RNG lib in order to maintain
                 // internal state. Could be any sample, but we'll keep 
                 // it consistent.
+                //
+                // Alternative method would be a seperate RNG per distribution/src,
+                // but that isn't compatible with the current stat library (which relies
+                // on the intrinsic Math.random() function).
                 Distributions.Poisson(rate);
                 retVal = rate;
                 break;
