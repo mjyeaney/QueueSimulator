@@ -60,16 +60,21 @@ $(function(){
                 if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
                     Queueing.OnTick();
                 } else {
-                    // TODO: Let's get an option around this behavior
-                    //Queueing.Drain();
-                    //if (Queueing.GetWorkItemCount() === 0){
-                        $('#btnRun').text($('#btnRun').data('idle-text'));
-                        _updateGraphData();
-                        _updateSummaryStats();
-                        break;
-                    //}
+                    if (Queueing.Options.enableDrainOff){
+                        Queueing.EnableDrainOff();
+                        while (Queueing.GetWorkItemCount() > 0){
+                            Queueing.OnTick();
+                        }
+                    }
+                    
+                    // Done!
+                    break;
                 }
             }
+            
+            $('#btnRun').text($('#btnRun').data('idle-text'));
+            _updateGraphData();
+            _updateSummaryStats();
         }, 50);
     });
 
@@ -106,11 +111,10 @@ $(function(){
         params.processingDistribution = $('#lstProcessingDist').val();
         params.processingRate = parseFloat($('#txtProcessingRate').val());
         params.randomSeed = parseInt($('#txtRngSeed').val());
-        params.enableDrainOff = true;
         params.enableQos = $('#cbApplyQoS').prop('checked');
         params.enableLoadShed = $('#cbApplyLoadShed').prop('checked');
+        params.enableDrainOff = $('#cbEnableDrainOff').prop('checked');
         params.taskTimeout = 30;
-        console.log(params);
         Queueing.Initialize(params);
     };
 

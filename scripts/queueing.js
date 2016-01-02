@@ -27,7 +27,8 @@
 
     // Primary system data collections
     var queue = [],
-        tickCount = 0;
+        tickCount = 0,
+        isDraining = false;
 
     // Tracking collections
     var arrivalHistory = [],
@@ -131,12 +132,15 @@
         // Advance logical time counter
         tickCount++;
 
-        // Sample from arrival source
-        arrivals = sampleRandomDistribution(options.arrivalDistribution, options.arrivalRate);
+        // While draining off, there are no arrivals
+        if (!isDraining){
+            // Sample from arrival source
+            arrivals = sampleRandomDistribution(options.arrivalDistribution, options.arrivalRate);
 
-        // Add arrivals to input queue
-        for (var a = 0; a <  arrivals; a++){
-            queue.push({Created: tickCount, Processed: 0});
+            // Add arrivals to input queue
+            for (var a = 0; a <  arrivals; a++){
+                queue.push({Created: tickCount, Processed: 0});
+            }
         }
 
         // Sample from processing distribution, and decide 
@@ -180,10 +184,11 @@
                 }
             }
 
+            loadShedHistory.push(shedItems);
+
             if (item) {
                 processingTimes.push(processed / options.serverCount);
                 waitTimeHistory.push(tickCount - item.Created);
-                loadShedHistory.push(shedItems);
             }
         }
 
@@ -212,12 +217,20 @@
     var reset = function(){
         tickCount = 0;
         queue.length = 0;
+        isDraining = false;
         arrivalHistory.length = 0;
         queueHistory.length = 0;
         waitTimeHistory.length = 0;
         utilizationHistory.length = 0;
         processingTimes.length = 0;
         loadShedHistory.length = 0;
+    };
+    
+    //
+    // Toggle method to enabled drain-off behavior
+    //
+    var enableDrainOff = function(){
+        isDraining = true;  
     };
 
     // Export methods
@@ -233,4 +246,5 @@
     scope.Queueing.ProcessingTimes = processingTimes;
     scope.Queueing.LoadShedCounts = loadShedHistory;
     scope.Queueing.Reset = reset;
+    scope.Queueing.EnableDrainOff = enableDrainOff;
 })(this);
