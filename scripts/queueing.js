@@ -34,7 +34,8 @@
         queueHistory = [],
         waitTimeHistory = [],
         processingTimes = [],
-        utilizationHistory = [];
+        utilizationHistory = [],
+        loadShedHistory = [];
 
     // System behavior params
     var options = {};
@@ -76,6 +77,7 @@
 
         // Apply QoS policy
         options.enableQos = params.enableQos;
+        options.enableLoadShed = params.enableLoadShed;
         
         // Timeout
         options.taskTimeout = params.taskTimeout;
@@ -112,12 +114,6 @@
     };
 
     //
-    // TODO: Need to track this as a collection of requests that have been 
-    // dropped (or denied) service.
-    //
-    var _deniedCount = 0;
-
-    //
     // Advances the system logical clock by one event-tick, updating
     // all internal state to reflect this new tick.
     //
@@ -129,7 +125,8 @@
             finalRate = 0.0,
             processed = 0,
             getWorkItem = null,
-            utilization = 0.0;
+            utilization = 0.0,
+            shedItems = 0;
 
         // Advance logical time counter
         tickCount++;
@@ -155,7 +152,6 @@
                 // in memory or vai storage structure.
                 //
                 if (queue.length > qosLimit){
-                    _deniedCount++;
                     return queue.pop();
                 } else {
                     return queue.shift();
@@ -170,22 +166,24 @@
             // Get item to work on
             var item = getWorkItem();
 
-            // Kill items that are too old (option)
-            //if (options.enableQos){
+            // Kill items that are too old
+            if (options.enableLoadShed){
+                shedItems = 0;
                 while (item){
                     var waitTime = tickCount - item.Created;
                     if (waitTime > qosMaxLifetime){
-                        _deniedCount++;
-                        item = getWorkItem();
+                        shedItems++;
+                        item = queue.shift();
                     } else {
                         break;
                     }
                 }
-            //}
+            }
 
             if (item) {
                 processingTimes.push(processed / options.serverCount);
                 waitTimeHistory.push(tickCount - item.Created);
+                loadShedHistory.push(shedItems);
             }
         }
 
@@ -213,13 +211,13 @@
     //
     var reset = function(){
         tickCount = 0;
-        _deniedCount = 0;
         queue.length = 0;
         arrivalHistory.length = 0;
         queueHistory.length = 0;
         waitTimeHistory.length = 0;
         utilizationHistory.length = 0;
         processingTimes.length = 0;
+        loadShedHistory.length = 0;
     };
 
     // Export methods
@@ -233,7 +231,6 @@
     scope.Queueing.WaitTimes = waitTimeHistory;
     scope.Queueing.Utilization = utilizationHistory;
     scope.Queueing.ProcessingTimes = processingTimes;
+    scope.Queueing.LoadShedCounts = loadShedHistory;
     scope.Queueing.Reset = reset;
-
-    scope.Queueing.GetDeniedCount = function(){ return _deniedCount; };
 })(this);
