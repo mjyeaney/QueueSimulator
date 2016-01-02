@@ -48,27 +48,23 @@ $(function(){
         // TODO: Wrap in an async-delegate signature
         setTimeout(function(){
             Queueing.Reset();
-            _updateGraphData();
-            _updateSummaryStats();
             _bindFormToModel();
                 
-            // TODO: Wrap in an async-delegate signature
-            setTimeout(function(){
-                while (true){
-                    if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
-                        Queueing.OnTick();
-                    } else {
-                        //Queueing.Drain();
-                        //if (Queueing.GetWorkItemCount() === 0){
-                            $('#btnRun').text($('#btnRun').data('idle-text'));
-                            _updateGraphData();
-                            _updateSummaryStats();
-                            break;
-                        //}
-                    }
+            while (true){
+                if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
+                    Queueing.OnTick();
+                } else {
+                    // TODO: Let's get an option around this behavior
+                    //Queueing.Drain();
+                    //if (Queueing.GetWorkItemCount() === 0){
+                        $('#btnRun').text($('#btnRun').data('idle-text'));
+                        _updateGraphData();
+                        _updateSummaryStats();
+                        break;
+                    //}
                 }
-            }, 0);
-        }, 0);
+            }
+        }, 50);
     });
 
     //
@@ -113,27 +109,27 @@ $(function(){
 
     // Helper to rebind charts to new data sources
     function _updateGraphData(){
-        var arrivals = Queueing.Arrivals;
+        var arrivals = Queueing.Arrivals.slice(0);
         var arrivalHist = Distributions.Histogram(arrivals);
         c1.highcharts().series[0].setData(arrivals);
         c2.highcharts().series[0].setData(arrivalHist);
 
-        var queueLengths = Queueing.QueueLengths;
+        var queueLengths = Queueing.QueueLengths.slice(0);
         var queueLengthHist = Distributions.Histogram(queueLengths);
         c3.highcharts().series[0].setData(queueLengths);
         c4.highcharts().series[0].setData(queueLengthHist);
 
-        var waitTimes = Queueing.WaitTimes;
+        var waitTimes = Queueing.WaitTimes.slice(0);
         var waitTimeHist = Distributions.Histogram(waitTimes);
         c5.highcharts().series[0].setData(waitTimes);
         c6.highcharts().series[0].setData(waitTimeHist);
 
-        var utilization = Queueing.Utilization;
+        var utilization = Queueing.Utilization.slice(0);
         var utilizationHist = Distributions.Histogram(utilization);
         c7.highcharts().series[0].setData(utilization);
         c8.highcharts().series[0].setData(utilizationHist);
 
-        var processing = Queueing.ProcessingTimes;
+        var processing = Queueing.ProcessingTimes.slice(0);
         var processingHist = Distributions.Histogram(processing);
         c9.highcharts().series[0].setData(processing);
         c10.highcharts().series[0].setData(processingHist);

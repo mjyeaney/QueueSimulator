@@ -123,8 +123,8 @@
     //
     var onTick = function(){
         // TODO: Move these out to the simulation config
-        var qosLimit = 10,
-            qosMaxLifetime = 30,
+        var qosLimit = 30,
+            //qosMaxLifetime = 30,
             arrivals = 0,
             finalRate = 0.0,
             processed = 0,
@@ -155,6 +155,7 @@
                 // in memory or vai storage structure.
                 //
                 if (queue.length > qosLimit){
+                    _deniedCount++;
                     return queue.pop();
                 } else {
                     return queue.shift();
@@ -168,19 +169,19 @@
         for (var p = 0; p < processed; p++){
             // Get item to work on
             var item = getWorkItem();
-
-            // Kill items that are too old
-            if (options.enableQos){
-                while (item){
-                    var waitTime = tickCount - item.Created;
-                    if (waitTime > qosMaxLifetime){
-                        _deniedCount++;
-                        item = getWorkItem();
-                    } else {
-                        break;
-                    }
-                }
-            }
+// 
+//             // Kill items that are too old
+//             if (options.enableQos){
+//                 while (item){
+//                     var waitTime = tickCount - item.Created;
+//                     if (waitTime > qosMaxLifetime){
+//                         _deniedCount++;
+//                         item = getWorkItem();
+//                     } else {
+//                         break;
+//                     }
+//                 }
+//             }
 
             if (item) {
                 processingTimes.push(processed / options.serverCount);
@@ -212,6 +213,7 @@
     //
     var reset = function(){
         tickCount = 0;
+        _deniedCount = 0;
         queue.length = 0;
         arrivalHistory.length = 0;
         queueHistory.length = 0;
