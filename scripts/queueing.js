@@ -123,8 +123,8 @@
     //
     var onTick = function(){
         // TODO: Move these out to the simulation config
-        var qosLimit = 30,
-            //qosMaxLifetime = 30,
+        var qosLimit = 100,
+            qosMaxLifetime = 30,
             arrivals = 0,
             finalRate = 0.0,
             processed = 0,
@@ -169,19 +169,19 @@
         for (var p = 0; p < processed; p++){
             // Get item to work on
             var item = getWorkItem();
-// 
-//             // Kill items that are too old
-//             if (options.enableQos){
-//                 while (item){
-//                     var waitTime = tickCount - item.Created;
-//                     if (waitTime > qosMaxLifetime){
-//                         _deniedCount++;
-//                         item = getWorkItem();
-//                     } else {
-//                         break;
-//                     }
-//                 }
-//             }
+
+            // Kill items that are too old (option)
+            //if (options.enableQos){
+                while (item){
+                    var waitTime = tickCount - item.Created;
+                    if (waitTime > qosMaxLifetime){
+                        _deniedCount++;
+                        item = getWorkItem();
+                    } else {
+                        break;
+                    }
+                }
+            //}
 
             if (item) {
                 processingTimes.push(processed / options.serverCount);
