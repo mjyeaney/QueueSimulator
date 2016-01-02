@@ -110,6 +110,10 @@
                 Distributions.Poisson(rate);
                 retVal = rate;
                 break;
+                
+            case 'Gaussian':
+                retVal = Distributions.Gaussian(rate, 1.0);
+                break;
         }
         return retVal;
     };
@@ -120,7 +124,7 @@
     //
     var onTick = function(){
         // TODO: Move these out to the simulation config
-        var qosLimit = 100,
+        var qosDepthLimit = 30,
             qosMaxLifetime = 30,
             arrivals = 0,
             finalRate = 0.0,
@@ -155,7 +159,7 @@
                 // NOTE: This can be simulated via linked-list structure, either 
                 // in memory or vai storage structure.
                 //
-                if (queue.length > qosLimit){
+                if (queue.length > qosDepthLimit){
                     return queue.pop();
                 } else {
                     return queue.shift();
