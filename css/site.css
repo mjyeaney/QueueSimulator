@@ -35,7 +35,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #titleBar {
     height: 3.95em;
     position: relative;
-    background: linear-gradient(to right, #24548e, #303030);
+    background-color: #303030;
     border-bottom: 1px solid #000;
 }
 
