@@ -23,7 +23,7 @@ var setNoCache = function(res){
 // Enable basic static resource support
 //
 app.use(express.static(__dirname, {
-    index : 'default.html'
+    index : 'model.html'
 }));
 
 //
@@ -31,7 +31,8 @@ app.use(express.static(__dirname, {
 //
 app.get('/Home', function(req, res){
     setNoCache(res);
-    res.sendFile(__dirname + '/default.html');
+    //res.sendFile(__dirname + '/default.html');
+    res.redirect('/Model');
 });
 app.get('/Model', function(req, res){
     setNoCache(res);

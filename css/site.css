@@ -1,5 +1,4 @@
 * { margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; }
 
 body { 
     font-family: "Open Sans", Tahoma, Verdana; 
@@ -42,7 +41,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #titleBar h1 {
 color: #fff;
     float: left;
-    line-height: 2.6em;
+    line-height: 2.5em;
     padding: 0 2em 0 0.5em;
     font-size: 1.5em;
 }
@@ -149,4 +148,62 @@ color: #fff;
 @media (max-width: 1024px){
     #results { padding: 1em; }
     #results .graph { width: 100%; }
+}
+
+@media (max-width: 760px){
+    #titleBar h1 { 
+        text-align: center;
+        float: none;
+        padding: 0; 
+    }
+    
+    #titleBar ul { display: none; }
+    
+    #inputPanel { 
+        position: static;
+        width: auto;
+        left: auto;
+        top: auto;
+        bottom: auto;
+        overflow-y: auto;
+        border-bottom: 1px solid #a0a0a0;
+        border-right: none;
+    }
+    
+    #inputPanel .navPanel h3 { text-align: center; }
+    
+    #inputPanel div.textBox, #inputPanel div.checkbox, #inputPanel div.list {
+        width: 18em;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    #inputPanel .inputForm { float: left; margin-left: 2em; }
+    #inputPanel .statusDisplay { float: right; margin-right: 2em; }
+    
+    #inputPanel .statusDisplay table { width: 20em; margin: 0 auto; }
+    
+    #results { 
+        position: static; 
+        left: auto; 
+        top: auto;
+        right: auto; 
+        bottom: auto; 
+        overflow-y: auto; 
+    }
+    
+    #results .noModel {
+        margin-top: 0;
+        text-align: center;
+        font-weight: 100;
+    }
+    #results .noModel h3 {
+        width: auto;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 610px){
+    #inputPanel .inputForm { float: none; margin-left: 0;}
+    #inputPanel .statusDisplay { float: none; margin-right: 0; }
 }

@@ -1,6 +1,9 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Queue Simulator - Model</title>
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600"" rel="stylesheet"" type="text/css"" />
     <link type="text/css" href="/css/site.css?ver=1.07" rel="stylesheet" />
@@ -20,68 +23,70 @@
             <a href="/Home" title="Home">Back</a>
         </div>
         
-        <div>
-            <label for="txtRngSeed">RNG Seed:</label>
-            <input id="txtRngSeed" type="text" value="" />
-        </div>
+        <div class="inputForm">
+            <div class="textBox">
+                <label for="txtRngSeed">RNG Seed:</label>
+                <input id="txtRngSeed" type="text" value="" />
+            </div>
 
-        <div>
-            <label for="lstArrivalDist">Arrival Distribution:</label>
-            <select id="lstArrivalDist">
-                <option>Choose one...</option>
-                <option>Constant</option>
-                <option>Poisson</option>
-                <option>Gaussian</option>
-            </select>
-        </div>
+            <div class="list">
+                <label for="lstArrivalDist">Arrival Distribution:</label>
+                <select id="lstArrivalDist">
+                    <option>Choose one...</option>
+                    <option>Constant</option>
+                    <option>Poisson</option>
+                    <option>Gaussian</option>
+                </select>
+            </div>
 
-        <div>
-            <label for="txtArrivalRate">Arrival Rate:</label>
-            <input id="txtArrivalRate" type="text" value="" />
-        </div>
-        
-        <div>
-            <label for="lstProcessingDist">Processing Distribution:</label>
-            <select id="lstProcessingDist">
-                <option>Choose one...</option>
-                <option>Constant</option>
-                <option>Poisson</option>
-                <option>Gaussian</option>
-            </select>
-        </div>
+            <div class="textBox">
+                <label for="txtArrivalRate">Arrival Rate:</label>
+                <input id="txtArrivalRate" type="text" value="" />
+            </div>
+            
+            <div class="list">
+                <label for="lstProcessingDist">Processing Distribution:</label>
+                <select id="lstProcessingDist">
+                    <option>Choose one...</option>
+                    <option>Constant</option>
+                    <option>Poisson</option>
+                    <option>Gaussian</option>
+                </select>
+            </div>
 
-        <div>
-            <label for="txtProcessingRate">Processing Rate:</label>
-            <input id="txtProcessingRate" type="text" value="" />
-        </div>
+            <div class="textBox">
+                <label for="txtProcessingRate">Processing Rate:</label>
+                <input id="txtProcessingRate" type="text" value="" />
+            </div>
 
-        <div>
-            <label for="txtServerCount">Number of Servers:</label>
-            <input id="txtServerCount" type="text" value="" />
-        </div>
+            <div class="textBox">
+                <label for="txtServerCount">Number of Servers:</label>
+                <input id="txtServerCount" type="text" value="" />
+            </div>
 
-        <div>
-            <label for="txtSimulationTime">Simulation Time:</label>
-            <input id="txtSimulationTime" type="text" value="" />
-        </div>
+            <div class="textBox">
+                <label for="txtSimulationTime">Simulation Time:</label>
+                <input id="txtSimulationTime" type="text" value="" />
+            </div>
 
-        <div class="checkbox">
-            <label for="cbApplyQoS">Apply QoS Policy:</label>
-            <input id="cbApplyQoS" type="checkbox" value="" />
-        </div>
-        
-        <div class="checkbox">
-            <label for="cbApplyLoadShed">Apply Load Shedding:</label>
-            <input id="cbApplyLoadShed" type="checkbox" value="" />
-        </div>
-        
-        <div class="checkbox">
-            <label for="cbEnableDrainOff">Enable Drain Off:</label>
-            <input id="cbEnableDrainOff" type="checkbox" value="" />
-        </div>
+            <div class="checkbox">
+                <label for="cbApplyQoS">Apply QoS Policy:</label>
+                <input id="cbApplyQoS" type="checkbox" value="" />
+            </div>
+            
+            <div class="checkbox">
+                <label for="cbApplyLoadShed">Apply Load Shedding:</label>
+                <input id="cbApplyLoadShed" type="checkbox" value="" />
+            </div>
+            
+            <div class="checkbox">
+                <label for="cbEnableDrainOff">Enable Drain Off:</label>
+                <input id="cbEnableDrainOff" type="checkbox" value="" />
+            </div>
 
-        <div class="buttonBar">
-            <button id="btnRun" class="grey" title="Run" data-busy-text="Working..." data-idle-text="Run Simulation">Run Simulation</button>
+            <div class="buttonBar">
+                <button id="btnRun" class="grey" title="Run" data-busy-text="Working..." data-idle-text="Run Simulation">Run Simulation</button>
+            </div>
         </div>
 
         <div class="statusDisplay">
