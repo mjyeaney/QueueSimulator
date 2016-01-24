@@ -1,3 +1,5 @@
+/* globals $, Queueing, Distributions */
+
 //
 // Main controller module for Qsim.
 //
