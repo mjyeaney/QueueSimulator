@@ -1,3 +1,5 @@
+/* global Distributions, RngSupport */
+
 //
 // This module implements the basic queued system definition.
 // This is the core system we will monitor externally, and use to
