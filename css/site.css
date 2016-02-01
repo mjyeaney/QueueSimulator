@@ -34,7 +34,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #titleBar {
     height: 3.95em;
     position: relative;
-    background-color: #303030;
+    background-color: #135;
     border-bottom: 1px solid #000;
 }
 
@@ -106,7 +106,7 @@ color: #fff;
 #inputPanel div.checkbox label, #inputPanel div.checkbox input { display: inline-block; }
 #inputPanel div label { line-height: 1.5em; }
 #inputPanel div input, #inputPanel div select { width: 17em; }
-#inputPanel div.checkbox {margin-bottom: 0; }
+#inputPanel div.checkbox {margin-bottom: 0; text-align: center; }
 #inputPanel div.checkbox input { width: auto; vertical-align: middle; }
 #inputPanel .buttonBar { text-align: center; margin-top: 1em; margin-bottom: 2em; }
 #inputPanel div button { margin-right: .5em; }
@@ -171,6 +171,7 @@ color: #fff;
     }
     
     #inputPanel .navPanel h3 { text-align: center; }
+    #inputPanel .navPanel a { display: none; }
     
     #inputPanel div.textBox, #inputPanel div.checkbox, #inputPanel div.list {
         width: 18em;
@@ -180,8 +181,19 @@ color: #fff;
     
     #inputPanel .inputForm { float: left; margin-left: 2em; }
     #inputPanel .statusDisplay { float: right; margin-right: 2em; }
-    
     #inputPanel .statusDisplay table { width: 20em; margin: 0 auto; }
+    
+    #inputPanel .checkboxContainer {
+        position: absolute;
+        right: 4em;
+        top: 22em;
+    }
+    
+    #inputPanel .buttonBar {
+        position: absolute;
+        right: 8em;
+        top: 30em;
+    }
     
     #results { 
         position: static; 
