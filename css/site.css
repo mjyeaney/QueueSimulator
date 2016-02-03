@@ -34,7 +34,7 @@ a, a:visited, a:active, a:hover { text-decoration: none; color: #11a; }
 #titleBar {
     height: 3.95em;
     position: relative;
-    background-color: #135;
+    background-color: #153;
     border-bottom: 1px solid #000;
 }
 
