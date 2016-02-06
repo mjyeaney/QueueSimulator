@@ -215,7 +215,7 @@ $(function(){
             },
             series: [{
                 type: type,
-                color: 'rgb(125, 167, 217)',
+                color: 'rgb(125, 150, 175)',
                 animation: false,
                 name: titleText,
                 pointPadding: 0,

@@ -22,8 +22,8 @@ button {
     border-radius: 3px; 
     cursor: pointer; 
 }
-button.green { background-color: #090; }
-button.red { background-color: #a99; color: #333;}
+button.green { background-color: #090;  }
+button.red { background-color: #a30; }
 button.grey { background-color: #aaa; color: #333;}
 
 input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 5px #0af; transition: all .25s;}
@@ -49,23 +49,18 @@ color: #fff;
     font-size: .65em;
 }
 
-#titleBar ul { list-style-type: none; position: absolute; right: 0; }
+#titleBar ul { list-style-type: none; position: absolute; right: 0; font-size: .775em; }
 #titleBar ul li { 
     text-align: right;
-    line-height: 4em;
+    line-height: 5em;
     position: relative;
     margin-right: 1em;
+    background-image: url(/images/GitHub-Mark-Light-32px.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 2.5em;
 }
 #titleBar ul li a { color: #fff; display: inline-block; margin: 0 1em;}
-#titleBar ul li:before {
-    content: "";
-    display: inline-block;
-    border: 20px solid #777;
-    border-radius: 20px;
-    position: absolute;
-    top: .5em;
-    left: -2.5em;
-}
 
 #inputPanel { 
     position: absolute;
@@ -100,6 +95,10 @@ color: #fff;
     padding-left: 2.25em;
     color: #000;
 }
+#inputPanel .navPanel h3 {
+    font-weight: 500;
+    line-height: 2.65em;
+}
 
 #inputPanel div { margin-bottom: 1em; }
 #inputPanel div label, #inputPanel div input { display: block; }
@@ -110,6 +109,7 @@ color: #fff;
 #inputPanel div.checkbox input { width: auto; vertical-align: middle; }
 #inputPanel .buttonBar { text-align: center; margin-top: 1em; margin-bottom: 2em; }
 #inputPanel div button { margin-right: .5em; }
+#inputPanel .statusDisplay table {width: 100%;}
 #inputPanel .statusDisplay tr { height: 1.5em; }
 #inputPanel .statusDisplay td { padding: 0 1em 0 0; }
 #inputPanel .statusDisplay td:nth-child(2) { text-align: right; }
@@ -151,13 +151,6 @@ color: #fff;
 }
 
 @media (max-width: 760px){
-    #titleBar h1 { 
-        text-align: center;
-        float: none;
-        padding: 0; 
-    }
-    
-    #titleBar ul { display: none; }
     
     #inputPanel { 
         position: static;
@@ -216,6 +209,15 @@ color: #fff;
 }
 
 @media (max-width: 610px){
+    #titleBar h1 {
+        font-size: 1.25em;
+        line-height: 3em;
+    } 
+
+    #titleBar ul li {
+        line-height: 5em;
+        padding-left: 2.5em;
+    }
     #inputPanel .inputForm { float: none; margin-left: 0;}
     #inputPanel .statusDisplay { float: none; margin-right: 0; }
 }
