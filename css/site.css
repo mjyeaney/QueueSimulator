@@ -152,6 +152,8 @@ color: #fff;
 
 @media (max-width: 760px){
     
+    #titleBar { position: fixed; left: 0; right: 0; top: 0; z-index: 100; }
+    
     #inputPanel { 
         position: static;
         width: auto;
@@ -161,6 +163,7 @@ color: #fff;
         overflow-y: auto;
         border-bottom: 1px solid #a0a0a0;
         border-right: none;
+        margin-top: 4.5em; 
     }
     
     #inputPanel .navPanel h3 { text-align: center; }
@@ -218,6 +221,6 @@ color: #fff;
         line-height: 5em;
         padding-left: 2.5em;
     }
-    #inputPanel .inputForm { float: none; margin-left: 0;}
+    #inputPanel .inputForm { display: none; }
     #inputPanel .statusDisplay { float: none; margin-right: 0; }
 }
