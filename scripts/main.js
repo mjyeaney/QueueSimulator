@@ -38,12 +38,6 @@ $(function(){
  
     var e10 = $('#processingHistogram'),
         c10 = _createGraph(e10, 'column', 'Processing Rate - Histogram', []);
-        
-    var e11 = $('#loadShedGraph'),
-        c11 = _createGraph(e11, 'line', 'Load-Shed Items', []);
-        
-    var e12 = $('#loadShedHistogram'),
-        c12 = _createGraph(e12, 'column', 'Load-Shed Items - Histogram', []);
 
     //
     // Start simulation loop when user clicks 'run' button.
@@ -137,11 +131,6 @@ $(function(){
         c5.highcharts().series[0].setData(waitTimes);
         c6.highcharts().series[0].setData(waitTimeHist);
         
-        var loadShedCounts = Queueing.LoadShedCounts.slice(0);
-        var loadShedHist = Distributions.Histogram(loadShedCounts);
-        c11.highcharts().series[0].setData(loadShedCounts);
-        c12.highcharts().series[0].setData(loadShedHist);
-
         var utilization = Queueing.Utilization.slice(0);
         var utilizationHist = Distributions.Histogram(utilization);
         c7.highcharts().series[0].setData(utilization);
