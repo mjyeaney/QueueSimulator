@@ -11,7 +11,6 @@
 // if the system has passed a given metric threshold.
 //
 // Things still on the to-do list: 
-// - Need to supply an option flag to allow toggling of QoS behaviors
 // - Much more logging needed...visualize all the things!
 // - Add tests.
 //
@@ -101,20 +100,12 @@
                 break;
             
             case 'Constant':
-                // NOTE: Even though this sample yields a constant value, we
-                // must still sample from the RNG lib in order to maintain
-                // internal state. Could be any sample, but we'll keep 
-                // it consistent.
-                //
-                // Alternative method would be a seperate RNG per distribution/src,
-                // but that isn't compatible with the current stat library (which relies
-                // on the intrinsic Math.random() function).
-                Distributions.Poisson(rate);
                 retVal = rate;
                 break;
                 
             case 'Gaussian':
-                retVal = Distributions.Gaussian(rate, 1.0);
+                // Note we're discretizing this sequence via midpoint rounding  
+                retVal = Math.round(Distributions.Gaussian(rate, 1.0));
                 break;
         }
         return retVal;
@@ -143,8 +134,8 @@
             // Sample from arrival source
             arrivals = sampleRandomDistribution(options.arrivalDistribution, options.arrivalRate);
 
-            // Add arrivals to input queue
-            for (var a = 0; a <  arrivals; a++){
+            // Add whole arrivals to input queue
+            for (var a = 0; a < arrivals; a++){
                 queue.push({Created: tickCount, Processed: 0});
             }
         }
@@ -193,10 +184,12 @@
             loadShedHistory.push(shedItems);
 
             if (item) {
-                processingTimes.push(processed / options.serverCount);
                 waitTimeHistory.push(tickCount - item.Created);
             }
         }
+        
+        // Record how many items we processed this time tick
+        processingTimes.push(processed / options.serverCount);
 
         // Compute system utilization
         // (While utilization can never be > 100%,
