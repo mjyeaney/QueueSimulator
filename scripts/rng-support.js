@@ -22,10 +22,10 @@
     // Create and start workers
     //
     var _w1 = new Worker('/scripts/rng-worker.js');
-    _w1.postMessage({command:'INIT', param: 'arrival_generator'});
+    _w1.postMessage({action: 'INIT', data: 'arrivals'});
     
     var _w2 = new Worker('/scripts/rng-worker.js');
-    _w2.postMessage({command:'INIT', param: 'processing_generator'});
+    _w2.postMessage({action: 'INIT', data: 'processing'});
 
     // Internal RNG member
     var _t = null;
@@ -49,8 +49,13 @@
     //
     // Creates a uniformly-distributed random variable
     //
-    var uniform = function(){
-        return Math.random();
+    var uniform = function(callback){
+        _w1.postMessage({
+            action: 'GENERATE_UNIFORM_POOL', 
+            data: {
+                poolSize: 200
+            }
+        });
     };
 
     //

@@ -14,25 +14,44 @@ var scope = this;
 // Initialize worker
 //
 var init = function(name){
-    console.log('Before init: scope.name = ' + scope.name);
     scope.name = name;
-    console.log('After init: scope.name = ' + scope.name);
+    
+    console.log('Initialized:')
+    console.log('scope.name = ' + scope.name);
+};
+
+//
+// Test method for getting a basic uniform random value
+//
+var generateUniformPool = function(params){
+    var pool = [],
+        j = 0;
+        
+    console.log('Generating uniform pool of size ' + params.poolSize);
+    
+    for (j = 0; j < params.poolSize; j++){
+        pool.push(Math.random());
+    }
+    
+    postMessage(pool);
 };
 
 //
 // Dispatch incoming messages
 //
 onmessage = function(e) {
-    console.log('Message received from main script');
+    console.log('Worker message received: ');
     console.log(e);
 
-    switch (e.data.command){
+    var command = e.data;
+
+    switch (command.action){
         case 'INIT':
-            init(e.data.param);
+            init(command.data);
+            break;
+            
+        case 'GENERATE_UNIFORM_POOL':
+            generateUniformPool(command.data);
             break;
     }
-    
-//   var workerResult = 'Result: ' + (e.data[0] * e.data[1]);
-//   console.log('Posting message back to main script');
-//   postMessage(workerResult);
 };
