@@ -1,4 +1,4 @@
-/* global Distributions, RngSupport */
+/* global RngSupport */
 
 //
 // This module implements the basic queued system definition.
@@ -96,7 +96,7 @@
         var retVal = 0.0;
         switch (distribution){
             case 'Poisson':
-                retVal = Distributions.Poisson(rate);
+                retVal = RngSupport.Poisson(rate);
                 break;
             
             case 'Constant':
@@ -105,7 +105,7 @@
                 
             case 'Gaussian':
                 // Note we're discretizing this sequence via midpoint rounding  
-                retVal = Math.round(Distributions.Gaussian(rate, 1.0));
+                retVal = Math.round(RngSupport.Gaussian(rate, 1.0));
                 break;
         }
         return retVal;

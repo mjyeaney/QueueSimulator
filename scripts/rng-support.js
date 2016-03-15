@@ -45,10 +45,49 @@
     Math.random = function(){ 
         return _t.random();
     };
+    
+    //
+    // Creates a uniformly-distributed random variable
+    //
+    var uniform = function(){
+        return Math.random();
+    };
+
+    //
+    // Creates a Poisson-distributed random variable.
+    //
+    var poisson = function(lambda){
+        return jStat.poisson.sample(lambda);
+    };
+
+    //
+    // Creates a Gaussian-distributed random varialbe
+    //
+    var gaussian = function(mu, sigma){
+        return jStat.normal.sample(mu, sigma);
+    };
+
+    //
+    // Creates a log-normal distributed random variable
+    //
+    var logNormal = function(mu, sigma){
+        return jStat.lognormal.sample(mu, sigma);
+    };
+
+    //
+    // Creates an exponential random variable
+    //
+    var exponential = function(lambda){
+        return jStat.exponential.sample(lambda);
+    };
 
     //
     // Export table
     //
     scope.RngSupport.Initialize = init;
-
+    scope.RngSupport.Uniform = uniform;
+    scope.RngSupport.Poisson = poisson;
+    scope.RngSupport.Gaussian = gaussian;
+    scope.RngSupport.LogNormal = logNormal;
+    scope.RngSupport.Exponential = exponential;
 })(this);

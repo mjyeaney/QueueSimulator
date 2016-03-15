@@ -5,9 +5,8 @@
 //
 
 $(function(){
- 
     //
-    // Initialize  charts placeholders (initial)
+    // Initialize chart DOM placeholders (initial)
     //
     var e1 = $('#arrivalsGraph'),
         c1 = _createGraph(e1, 'line', 'Arrival Rate', []);

@@ -4,6 +4,9 @@
     and we need to isolate side-effects from each variable.
 */
 
+// If needed, pull in scripts/libs
+// importScripts(/* Path to script */);
+
 // Capture our current global scope
 var scope = this;
 
