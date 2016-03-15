@@ -17,6 +17,15 @@
     if (!scope.RngSupport){
         scope.RngSupport = {};
     }
+    
+    //
+    // Create and start workers
+    //
+    var _w1 = new Worker('/scripts/rng-worker.js');
+    _w1.postMessage({command:'INIT', param: 'arrival_generator'});
+    
+    var _w2 = new Worker('/scripts/rng-worker.js');
+    _w2.postMessage({command:'INIT', param: 'processing_generator'});
 
     // Internal RNG member
     var _t = null;
