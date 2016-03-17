@@ -204,7 +204,7 @@
                 queueHistory.push(queue.length);
                 arrivalHistory.push(arrivals);
                 
-                // Invoke continuation
+                // Invoke continuation (if passed)
                 if (callback) {
                     callback();
                 }

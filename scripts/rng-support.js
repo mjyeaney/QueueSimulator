@@ -19,7 +19,7 @@
     }
     
     //
-    // Create and start workers
+    // Create and start workers and init RNG pools
     //
     var _w1 = new Worker('/scripts/rng-worker.js');
     _w1.postMessage({action: 'INIT', data: 'arrivals'});
