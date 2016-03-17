@@ -50,26 +50,26 @@ $(function(){
         setTimeout(function(){
             Queueing.Reset();
             _bindFormToModel();
-                
-            while (true){
-                if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
-                    Queueing.OnTick();
-                } else {
-                    if (Queueing.Options.enableDrainOff){
-                        Queueing.EnableDrainOff();
-                        while (Queueing.GetWorkItemCount() > 0){
-                            Queueing.OnTick();
-                        }
-                    }
-                    
-                    // Done!
-                    break;
-                }
-            }
             
-            $('#btnRun').text($('#btnRun').data('idle-text'));
-            _updateGraphData();
-            _updateSummaryStats();
+            var fn = function(){
+                if (Queueing.GetTicks() <= Queueing.Options.simulationTime){
+                    // if (Queueing.Options.enableDrainOff){
+                    //     Queueing.EnableDrainOff();
+                    //     while (Queueing.GetWorkItemCount() > 0){
+                    //         Queueing.OnTick();
+                    //     }
+                    // }
+                    
+                    Queueing.OnTick(fn);
+                } else {
+                    // Complete
+                    $('#btnRun').text($('#btnRun').data('idle-text'));
+                    _updateGraphData();
+                    _updateSummaryStats();
+                }
+            };
+            
+            Queueing.OnTick(fn);
         }, 50);
     });
 

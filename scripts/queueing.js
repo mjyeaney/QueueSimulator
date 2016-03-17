@@ -92,30 +92,28 @@
     // Returns a random variable sample value based on 
     // a specified type.
     //
-    var sampleRandomDistribution = function(distribution, rate){
-        var retVal = 0.0;
+    var sampleDistributionAsync = function(distribution, rate, callback){
         switch (distribution){
             case 'Poisson':
-                retVal = RngSupport.Poisson(rate);
+                RngSupport.Poisson(rate, callback);
                 break;
             
             case 'Constant':
-                retVal = rate;
+                callback(rate);
                 break;
                 
             case 'Gaussian':
                 // Note we're discretizing this sequence via midpoint rounding  
-                retVal = Math.round(RngSupport.Gaussian(rate, 1.0));
+                Math.round(RngSupport.Gaussian(rate, 1.0, callback));
                 break;
         }
-        return retVal;
     };
 
     //
     // Advances the system logical clock by one event-tick, updating
     // all internal state to reflect this new tick.
     //
-    var onTick = function(){
+    var onTick = function(callback){
         // TODO: Move these out to the simulation config
         var qosDepthLimit = 30,
             qosMaxLifetime = 30,
@@ -129,85 +127,89 @@
         // Advance logical time counter
         tickCount++;
 
-        // While draining off, there are no arrivals
-        if (!isDraining){
-            // Sample from arrival source
-            arrivals = sampleRandomDistribution(options.arrivalDistribution, options.arrivalRate);
-
+        // Sample from arrival source
+        sampleDistributionAsync(options.arrivalDistribution, options.arrivalRate, function(err, arrivals){
+            
             // Add whole arrivals to input queue
             for (var a = 0; a < arrivals; a++){
                 queue.push({Created: tickCount, Processed: 0});
             }
-        }
+            
+            // Sample from processing distribution, and decide 
+            // how many items to process.
+            finalRate = options.processingRate * options.serverCount;
+            sampleDistributionAsync(options.processingDistribution, finalRate, function(err, processed){
 
-        // Sample from processing distribution, and decide 
-        // how many items to process.
-        finalRate = options.processingRate * options.serverCount;
-        processed = sampleRandomDistribution(options.processingDistribution, finalRate);
-
-        // Helper to get work item
-        getWorkItem = function(){
-            if (options.enableQos){
-                //
-                // NOTE: This can be simulated via linked-list structure, either 
-                // in memory or vai storage structure.
-                //
-                if (queue.length > qosDepthLimit){
-                    return queue.pop();
-                } else {
-                    return queue.shift();
-                }
-            } else {
-                return queue.shift();
-            }
-        };
-
-        // Remove processed items
-        for (var p = 0; p < processed; p++){
-            // Get item to work on
-            var item = getWorkItem();
-
-            // Kill items that are too old
-            if (options.enableLoadShed){
-                shedItems = 0;
-                while (item){
-                    var waitTime = tickCount - item.Created;
-                    if (waitTime > qosMaxLifetime){
-                        shedItems++;
-                        item = queue.shift();
+                // Helper to get work item
+                getWorkItem = function(){
+                    if (options.enableQos){
+                        //
+                        // NOTE: This can be simulated via linked-list structure, either 
+                        // in memory or vai storage structure.
+                        //
+                        if (queue.length > qosDepthLimit){
+                            return queue.pop();
+                        } else {
+                            return queue.shift();
+                        }
                     } else {
-                        break;
+                        return queue.shift();
+                    }
+                };
+
+                // Remove processed items
+                for (var p = 0; p < processed; p++){
+                    // Get item to work on
+                    var item = getWorkItem();
+
+                    // Kill items that are too old
+                    if (options.enableLoadShed){
+                        shedItems = 0;
+                        while (item){
+                            var waitTime = tickCount - item.Created;
+                            if (waitTime > qosMaxLifetime){
+                                shedItems++;
+                                item = queue.shift();
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+
+                    loadShedHistory.push(shedItems);
+
+                    if (item) {
+                        waitTimeHistory.push(tickCount - item.Created);
                     }
                 }
-            }
+                
+                // Record how many items we processed this time tick
+                processingTimes.push(processed / options.serverCount);
 
-            loadShedHistory.push(shedItems);
+                // Compute system utilization
+                // (While utilization can never be > 100%,
+                // it can be useful to see exactly *how* overscheduled a specific 
+                // server(s) is/are.
+                utilization = Math.min(100.0, 100.0 * (arrivals / processed));
 
-            if (item) {
-                waitTimeHistory.push(tickCount - item.Created);
-            }
-        }
-        
-        // Record how many items we processed this time tick
-        processingTimes.push(processed / options.serverCount);
+                // Special cases for utilization
+                if ((processed === 0) && (arrivals === 0)) {
+                    utilization = 0.0;
+                } else if (processed === 0) {
+                    utilization = 100.0;
+                }
 
-        // Compute system utilization
-        // (While utilization can never be > 100%,
-        // it can be useful to see exactly *how* overscheduled a specific 
-        // server(s) is/are.
-        utilization = Math.min(100.0, 100.0 * (arrivals / processed));
-
-        // Special cases for utilization
-        if ((processed === 0) && (arrivals === 0)) {
-            utilization = 0.0;
-        } else if (processed === 0) {
-            utilization = 100.0;
-        }
-
-        // Record history metrics
-        utilizationHistory.push(utilization);
-        queueHistory.push(queue.length);
-        arrivalHistory.push(arrivals);
+                // Record history metrics
+                utilizationHistory.push(utilization);
+                queueHistory.push(queue.length);
+                arrivalHistory.push(arrivals);
+                
+                // Invoke continuation
+                if (callback) {
+                    callback();
+                }
+            });
+        });
     };
 
     //

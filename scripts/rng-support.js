@@ -61,29 +61,29 @@
     //
     // Creates a Poisson-distributed random variable.
     //
-    var poisson = function(lambda){
-        return jStat.poisson.sample(lambda);
+    var poisson = function(lambda, callback){
+        callback(null, jStat.poisson.sample(lambda));
     };
 
     //
     // Creates a Gaussian-distributed random varialbe
     //
-    var gaussian = function(mu, sigma){
-        return jStat.normal.sample(mu, sigma);
+    var gaussian = function(mu, sigma, callback){
+        callback(null, jStat.normal.sample(mu, sigma));
     };
 
     //
     // Creates a log-normal distributed random variable
     //
-    var logNormal = function(mu, sigma){
-        return jStat.lognormal.sample(mu, sigma);
+    var logNormal = function(mu, sigma, callback){
+        callback(null, jStat.lognormal.sample(mu, sigma));
     };
 
     //
     // Creates an exponential random variable
     //
-    var exponential = function(lambda){
-        return jStat.exponential.sample(lambda);
+    var exponential = function(lambda, callback){
+        callback(null, jStat.exponential.sample(lambda));
     };
 
     //
